@@ -1,0 +1,11 @@
+\set style=pretty
+
+\func -x \obj
+    \if [ $# -ne 1 ]
+        \echo "usage: obj [U|V|P|TR|etc]"
+        \return 1
+    \fi
+    select name from sysobjects where type = "${1}"
+    go
+\done
+
