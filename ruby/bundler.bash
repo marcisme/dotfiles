@@ -1,0 +1,6 @@
+alias b="bundle"
+alias be="b exec"
+alias bi="b install"
+alias biv="b install --path vendor"
+alias bu="b update"
+alias bake="be rake"

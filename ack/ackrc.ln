@@ -1,0 +1,4 @@
+--type-add=ruby=.haml,.rake,.rsel
+--ignore-dir=vendor
+--ignore-dir=.m2
+--ignore-dir=.ivy2

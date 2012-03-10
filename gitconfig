@@ -1,7 +1,0 @@
-[core]
-  excludesfile = /Users/marc/.gitignore
-  editor = /usr/bin/vim
-[color]
-  ui = auto
-[merge]
-  tool = mvimdiff

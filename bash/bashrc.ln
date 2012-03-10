@@ -1,0 +1,20 @@
+# vi rules
+set -o vi
+
+# source it all
+for f in $(find -L ~/.dotfiles -name \*.bash); do
+  source $f
+done
+
+# prompt
+#   * __git_ps1 is from bash git completion, so must come last. ish.
+export PS1='\u@\h:\w$(__git_ps1 " (%s)")\n> '
+
+# my binaries
+export PATH=$HOME/bin:$PATH
+
+# rvm setup
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
