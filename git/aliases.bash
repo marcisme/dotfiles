@@ -10,6 +10,7 @@ alias gb="g branch"
 alias gt="g tag"
 alias gco="git checkout"
 alias gd="g diff"
+alias gdc="gd --cached"
 alias gf="g fetch"
 alias gpr="g pull --rebase"
 
