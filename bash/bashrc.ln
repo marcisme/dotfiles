@@ -1,6 +1,16 @@
 # vi rules
 set -o vi
 
+if [ "$(uname)" == "Darwin" ]; then
+  if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    source $(brew --prefix)/etc/bash_completion
+  fi
+else
+  if [ -f /etc/bash_completion ]; then
+    source /etc/bash_completion
+  fi
+fi
+
 # source it all
 for f in $(find -L ~/.dotfiles -name \*.bash); do
   source $f
