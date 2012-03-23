@@ -28,6 +28,11 @@ export PS1='\u@\h:\w$(__git_ps1 " (%s)")\n> '
 # my binaries
 export PATH=$HOME/bin:$PATH
 
+# local stuff
+if [ -f ~/.local.bashrc ]; then
+  source ~/.local.bashrc
+fi
+
 # rvm setup
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
