@@ -1,6 +1,8 @@
 # vi rules
 set -o vi
 
+LANG=en_US.UTF-8
+
 if [ "$(uname)" == "Darwin" ]; then
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
     source $(brew --prefix)/etc/bash_completion
@@ -25,6 +27,5 @@ export PATH=$HOME/bin:$PATH
 
 # rvm setup
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
