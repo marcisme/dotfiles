@@ -17,3 +17,13 @@ bind ^A select-pane -t :.+
 
 # copy and paste is good
 set-option -g default-command "reattach-to-user-namespace -l bash"
+
+# vi-like pane navigation
+unbind h
+bind h select-pane -L
+unbind j
+bind j select-pane -D
+unbind k
+bind k select-pane -U
+unbind l
+bind l select-pane -R
