@@ -16,7 +16,7 @@ unbind ^A
 bind ^A select-pane -t :.+
 
 # copy and paste is good
-set-option -g default-command "reattach-to-user-namespace -l bash"
+set-option -g default-command 'if [ "$(uname)" == "Darwin" ]; then reattach-to-user-namespace -l bash; else bash -l; fi'
 
 # vi-like pane navigation
 unbind h
