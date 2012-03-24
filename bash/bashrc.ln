@@ -10,10 +10,12 @@ if [ "$(uname)" == "Darwin" ]; then
 else # linux
   if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
-  elif [ ! -f ~/.git-completion.bash ]; then
-    curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+  else
+    if [ ! -f ~/.git-completion.bash ]; then
+      curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+    fi
+    source ~/.git-completion.bash
   fi
-  source ~/.git-completion.bash
 fi
 
 # source it all
