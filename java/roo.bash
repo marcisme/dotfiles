@@ -1,1 +1,0 @@
-alias roo="roo.sh"
