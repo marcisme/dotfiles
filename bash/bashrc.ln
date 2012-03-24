@@ -36,6 +36,10 @@ if [ -f ~/.local.bashrc ]; then
 fi
 
 # rvm setup
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+if [ -f ~/.rvmrc ]; then
+  RVM_PATH=$(grep rvm_path ~/.rvmrc | cut -f2 -d= | tr -d \"\')
+fi
+RVM_PATH=${RVM_PATH:-$HOME/.rvm}
+[[ -s "$RVM_PATH/scripts/rvm" ]] && source "$RVM_PATH/scripts/rvm"
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=$PATH:$RVM_PATH/bin # Add RVM to PATH for scripting
