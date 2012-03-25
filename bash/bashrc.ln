@@ -1,7 +1,8 @@
 # vi rules
 set -o vi
 
-LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+export EDITOR=vi
 
 if [ "$(uname)" == "Darwin" ]; then
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
