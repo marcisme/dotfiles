@@ -2,7 +2,7 @@
 set -o vi
 
 export LANG=en_US.UTF-8
-export EDITOR=vi
+export EDITOR=vim
 
 if [ "$(uname)" == "Darwin" ]; then
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
