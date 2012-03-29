@@ -32,8 +32,8 @@ export PS1='\u@\h:\w$(__git_ps1 " (%s)")\n> '
 export PATH=$HOME/bin:$PATH
 
 # local stuff
-if [ -f ~/.local.bashrc ]; then
-  source ~/.local.bashrc
+if [ -f ~/.bashrc.local ]; then
+  source ~/.bashrc.local
 fi
 
 # rvm setup
