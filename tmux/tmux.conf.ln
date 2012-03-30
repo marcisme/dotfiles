@@ -27,3 +27,9 @@ unbind k
 bind k select-pane -U
 unbind l
 bind l select-pane -R
+
+# pane maximizing - http://superuser.com/questions/238702/maximizing-a-pane-in-tmux
+unbind =
+bind = new-window -d -n tmux-zoom 'clear && echo TMUX ZOOM && read' \; swap-pane -s tmux-zoom.0 \; select-window -t tmux-zoom
+unbind -
+bind - last-window \; swap-pane -s tmux-zoom.0 \; kill-window -t tmux-zoom
