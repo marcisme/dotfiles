@@ -33,3 +33,25 @@ unbind =
 bind = new-window -d -n tmux-zoom 'clear && echo TMUX ZOOM && read' \; swap-pane -s tmux-zoom.0 \; select-window -t tmux-zoom
 unbind -
 bind - last-window \; swap-pane -s tmux-zoom.0 \; kill-window -t tmux-zoom
+
+# pane selection
+unbind 0
+bind 0 select-pane -t 0
+unbind 1
+bind 1 select-pane -t 1
+unbind 2
+bind 2 select-pane -t 2
+unbind 3
+bind 3 select-pane -t 3
+unbind 4
+bind 4 select-pane -t 4
+unbind 5
+bind 5 select-pane -t 5
+unbind 6
+bind 6 select-pane -t 6
+unbind 7
+bind 7 select-pane -t 7
+unbind 8
+bind 8 select-pane -t 8
+unbind 9
+bind 9 select-pane -t 9
