@@ -55,3 +55,13 @@ unbind 8
 bind 8 select-pane -t 8
 unbind 9
 bind 9 select-pane -t 9
+
+# vimmy pane resizing
+unbind C-Left
+bind -r C-h resize-pane -L
+unbind C-Down
+bind -r C-j resize-pane -D
+unbind C-Up
+bind -r C-k resize-pane -U
+unbind C-Right
+bind -r C-l resize-pane -R
