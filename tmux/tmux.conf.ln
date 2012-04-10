@@ -12,8 +12,8 @@ unbind r
 bind r source-file ~/.tmux.conf
 
 # quick pane cycling
-unbind ^A
-bind ^A select-pane -t :.+
+unbind C-A
+bind C-A select-pane -t :.+
 
 # copy and paste is good
 set-option -g default-command 'if [ "$(uname)" == "Darwin" ]; then reattach-to-user-namespace -l bash; else bash -l; fi'
