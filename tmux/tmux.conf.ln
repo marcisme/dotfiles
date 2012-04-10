@@ -20,13 +20,13 @@ set-option -g default-command 'if [ "$(uname)" == "Darwin" ]; then reattach-to-u
 
 # vi-like pane navigation
 unbind h
-bind h select-pane -L
+bind -r h select-pane -L
 unbind j
-bind j select-pane -D
+bind -r j select-pane -D
 unbind k
-bind k select-pane -U
+bind -r k select-pane -U
 unbind l
-bind l select-pane -R
+bind -r l select-pane -R
 
 # pane maximizing - http://superuser.com/questions/238702/maximizing-a-pane-in-tmux
 unbind =
