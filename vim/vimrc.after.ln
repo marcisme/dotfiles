@@ -5,3 +5,6 @@ set background=light
 " http://denapo.li/blog/2011/01/vim-and-nerd-tree-always-share-the-same-tree-across-all-tabs/
 " guarantees that the NERDTrees for all tabs will be one and the same
 map <Leader>n :NERDTreeToggle \| :silent NERDTreeMirror<CR>
+
+" yank to system clipboard
+set clipboard=unnamed
