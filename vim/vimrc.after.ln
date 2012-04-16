@@ -8,3 +8,12 @@ map <Leader>n :NERDTreeToggle \| :silent NERDTreeMirror<CR>
 
 " yank to system clipboard
 set clipboard=unnamed
+
+" don't manage working directory
+let g:ctrlp_working_path_mode = 0
+
+" ctrlp ignores
+set wildignore+=*/.git/*,*/.svn/*,.ccignore   " scm
+set wildignore+=*/target/*,*/.unpack/*        " mvn build files
+set wildignore+=tags                          " ctags
+set wildignore+=.settings,.project,.classpath " eclipse
