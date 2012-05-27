@@ -12,6 +12,9 @@ set clipboard=unnamed
 " don't manage working directory
 let g:ctrlp_working_path_mode = 0
 
+" regex by default
+let g:ctrlp_regexp = 1
+
 " ctrlp ignores
 set wildignore+=*/.git/*,*/.svn/*,.ccignore   " scm
 set wildignore+=*/target/*,*/.unpack/*        " mvn build files
