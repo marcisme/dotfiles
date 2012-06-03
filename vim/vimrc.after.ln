@@ -20,3 +20,7 @@ set wildignore+=*/.git/*,*/.svn/*,.ccignore   " scm
 set wildignore+=*/target/*,*/.unpack/*        " mvn build files
 set wildignore+=tags                          " ctags
 set wildignore+=.settings,.project,.classpath " eclipse
+
+" make tabs and trailing space obvious
+set list listchars=tab:>-,trail:·
+highlight SpecialKey ctermbg=red guibg=red
