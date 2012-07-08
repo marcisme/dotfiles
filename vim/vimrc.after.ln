@@ -20,6 +20,8 @@ set wildignore+=*/.git/*,*/.svn/*,.ccignore   " scm
 set wildignore+=*/target/*,*/.unpack/*        " mvn build files
 set wildignore+=tags                          " ctags
 set wildignore+=.settings,.project,.classpath " eclipse
+set wildignore+=build,vendor,*.a              " RubyMotion
+set wildignore+=.DS_Store                     " osx
 
 " make tabs and trailing space obvious
 set list listchars=tab:>-,trail:·
