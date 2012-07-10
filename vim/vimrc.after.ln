@@ -26,3 +26,6 @@ set wildignore+=.DS_Store                     " osx
 " make tabs and trailing space obvious
 set list listchars=tab:>-,trail:·
 highlight SpecialKey ctermbg=red guibg=red
+
+nmap <Leader>c :VimuxPromptCommand<CR>
+nmap <Leader>r :VimuxRunLastCommand<CR>
