@@ -20,7 +20,7 @@ set wildignore+=*/.git/*,*/.svn/*,.ccignore   " scm
 set wildignore+=*/target/*,*/.unpack/*        " mvn build files
 set wildignore+=tags                          " ctags
 set wildignore+=.settings,.project,.classpath " eclipse
-set wildignore+=build,vendor,*.a              " RubyMotion
+set wildignore+=build,vendor,*.a,*.nib        " RubyMotion
 set wildignore+=.DS_Store                     " osx
 
 " make tabs and trailing space obvious
@@ -29,3 +29,17 @@ highlight SpecialKey ctermbg=red guibg=red
 
 nmap <Leader>c :VimuxPromptCommand<CR>
 nmap <Leader>r :VimuxRunLastCommand<CR>
+
+" whitespace cleanup - largely "yanked" from:
+" http://technotales.wordpress.com/2010/03/31/preserve-a-vim-function-that-keeps-your-state/
+function! Preserve(command)
+  " Preparation: save last search, and cursor position.
+  let _s=@/
+  let pos = getpos('.')
+  execute a:command
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call setpos('.', pos)
+endfunction
+
+nmap <Leader>w :call Preserve('%s/\s\+$//e')<CR>
