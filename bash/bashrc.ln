@@ -41,6 +41,10 @@ if [ -f ~/.rvmrc ]; then
   RVM_PATH=$(grep rvm_path ~/.rvmrc | cut -f2 -d= | tr -d \"\')
 fi
 RVM_PATH=${RVM_PATH:-$HOME/.rvm}
-[[ -s "$RVM_PATH/scripts/rvm" ]] && source "$RVM_PATH/scripts/rvm"
+if [ -s "$RVM_PATH/scripts/rvm" ]; then
+  source "$RVM_PATH/scripts/rvm"
+  PATH=$PATH:$RVM_PATH/bin # Add RVM to PATH for scripting
+fi
 
-PATH=$PATH:$RVM_PATH/bin # Add RVM to PATH for scripting
+# rbenv setup
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
