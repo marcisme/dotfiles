@@ -27,9 +27,11 @@ set wildignore+=.DS_Store                     " osx
 set list listchars=tab:>-,trail:·
 highlight SpecialKey ctermbg=red guibg=red
 
+" Vimux mappings
 nmap <Leader>c :VimuxPromptCommand<CR>
 nmap <Leader>r :VimuxRunLastCommand<CR>
 nmap <Leader>R :call VimuxInterruptRunner() \| call VimuxRunLastCommand()<CR>
+nmap <Leader>t :call VimuxRunCommand('rake spec files=' . bufname('%'))<CR>
 
 " whitespace cleanup - largely "yanked" from:
 " http://technotales.wordpress.com/2010/03/31/preserve-a-vim-function-that-keeps-your-state/
