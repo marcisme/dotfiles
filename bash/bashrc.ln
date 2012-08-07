@@ -47,4 +47,4 @@ if [ -s "$RVM_PATH/scripts/rvm" ]; then
 fi
 
 # rbenv setup
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+if which rbenv &> /dev/null; then eval "$(rbenv init -)"; fi
