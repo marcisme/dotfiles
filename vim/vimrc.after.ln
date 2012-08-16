@@ -25,6 +25,9 @@ let g:ctrlp_custom_ignore = {
   \ 'osx': '.DS_Store',
   \ }
 
+" open multiple files in separate tabs
+let g:ctrlp_open_multiple_files = 't'
+
 " make tabs and trailing space obvious
 set list listchars=tab:>-,trail:·
 highlight SpecialKey ctermbg=red guibg=red
