@@ -16,12 +16,14 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_regexp = 1
 
 " ctrlp ignores
-set wildignore+=*/.git/*,*/.svn/*,.ccignore   " scm
-set wildignore+=*/target/*,*/.unpack/*        " mvn build files
-set wildignore+=tags                          " ctags
-set wildignore+=.settings,.project,.classpath " eclipse
-set wildignore+=build,vendor,*.a,*.nib        " RubyMotion
-set wildignore+=.DS_Store                     " osx
+let g:ctrlp_custom_ignore = {
+  \ 'scm': '*/.git/*,*/.svn/*,.ccignore',
+  \ 'mvn build files': '*/target/*,*/.unpack/*',
+  \ 'tags': 'ctags',
+  \ 'eclipse': '.settings,.project,.classpath',
+  \ 'RubyMotion': 'build,vendor,*.a,*.nib',
+  \ 'osx': '.DS_Store',
+  \ }
 
 " make tabs and trailing space obvious
 set list listchars=tab:>-,trail:·
