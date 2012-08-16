@@ -17,12 +17,9 @@ let g:ctrlp_regexp = 1
 
 " ctrlp ignores
 let g:ctrlp_custom_ignore = {
-  \ 'scm': '*/.git/*,*/.svn/*,.ccignore',
-  \ 'mvn build files': '*/target/*,*/.unpack/*',
-  \ 'tags': 'ctags',
-  \ 'eclipse': '.settings,.project,.classpath',
-  \ 'RubyMotion': 'build,vendor,*.a,*.nib',
-  \ 'osx': '.DS_Store',
+  \ 'dir': 'build$\|\.git$\|\.storyboardc$\|\.svn$\|target$\|\.unpack$\|vendor$',
+  \ 'file': 'ctags$\|\.ccignore$\|\.DS_Store$\|\.gitignore$\|\.repl_history$',
+  \ 'link': '',
   \ }
 
 " open multiple files in separate tabs
