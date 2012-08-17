@@ -52,3 +52,6 @@ nmap <Leader>w :call Preserve('%s/\s\+$//e')<CR>
 " tab cycling
 map <C-L> :tabnext<CR>
 map <C-H> :tabprevious<CR>
+
+" make the current split the only one and turn diff off
+nmap <Leader>do :only! \| :diffoff!<CR>
