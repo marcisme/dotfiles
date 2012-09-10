@@ -2,3 +2,5 @@
 --ignore-dir=vendor
 --ignore-dir=.m2
 --ignore-dir=.ivy2
+--ignore-dir=target
+--ignore-dir=.unpack
