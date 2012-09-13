@@ -8,7 +8,7 @@ let vam_addons = [
   \ 'surround',
   \ 'rails',
   \ 'rake',
-  \ 'bundler',
+  \ 'github:tpope/vim-bundler',
   \ 'unimpaired',
   \ 'repeat',
   \ 'vimux',
