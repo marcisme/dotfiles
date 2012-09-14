@@ -17,7 +17,7 @@ else # linux
       curl https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh -o ~/.git-prompt.sh
     fi
     source ~/.git-completion.bash
-    source ~/.git-prompt.bash
+    source ~/.git-prompt.sh
   fi
 fi
 
