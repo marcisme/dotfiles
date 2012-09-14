@@ -14,8 +14,10 @@ else # linux
   else
     if [ ! -f ~/.git-completion.bash ]; then
       curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+      curl https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh -o ~/.git-prompt.sh
     fi
     source ~/.git-completion.bash
+    source ~/.git-prompt.bash
   fi
 fi
 
