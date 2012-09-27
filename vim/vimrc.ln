@@ -131,6 +131,16 @@ augroup END
 " don't add comment prefix when opening new lines
 set formatoptions-=o
 
+" override javascript commenting
+let g:tcomment_types = {
+  \ 'javascript': '// %s',
+  \ 'javascript_inline': '// %s',
+  \ 'javascript_block': '// %s',
+  \ 'javaScript': '// %s',
+  \ 'javaScript_inline': '// %s',
+  \ 'javaScript_block': '// %s',
+  \ }
+
 " searching
 set hlsearch
 set incsearch
