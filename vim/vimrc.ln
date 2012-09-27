@@ -20,6 +20,7 @@ call SetupVAM(vam_addons)
 " we now return to your regularly scheduled .vimrc
 let mapleader = ','
 set nocompatible
+filetype indent plugin on
 
 " backup files
 set backupdir=~/.vim/tmp
