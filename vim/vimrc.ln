@@ -57,6 +57,7 @@ set expandtab
 set smarttab
 set autoindent
 set wildmenu
+set textwidth=78
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Thank you, Gary
@@ -113,7 +114,6 @@ map <leader>n :call RenameFile()<cr>
 augroup vimrcEx
   " Clear all autocmds in the group
   autocmd!
-  autocmd FileType text setlocal textwidth=78
   " Jump to last cursor position unless it's invalid or in an event handler
   autocmd BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
