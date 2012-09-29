@@ -57,7 +57,6 @@ set expandtab
 set smarttab
 set autoindent
 set wildmenu
-set textwidth=78
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Thank you, Gary
