@@ -155,9 +155,6 @@ set clipboard=unnamed
 " don't manage working directory
 let g:ctrlp_working_path_mode = 0
 
-" regex by default
-let g:ctrlp_regexp = 1
-
 " ctrlp ignores
 let g:ctrlp_custom_ignore = {
   \ 'dir': 'build$\|\.git$\|\.storyboardc$\|\.svn$\|target$\|\.unpack$\|vendor$',
