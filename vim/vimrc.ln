@@ -202,3 +202,6 @@ let g:snipMate['snippet_dirs'] = ['~/.vim']
 let g:snipMate.scope_aliases = {}
 let g:snipMate.scope_aliases['ruby'] = 'ruby,motion'
 
+" jslint script
+nmap <Leader>j :!jslint %<CR>
+
