@@ -1,4 +1,5 @@
 --type-add=ruby=.haml,.rake,.rsel,.feature
+--type-set=plist=.plist
 --ignore-dir=vendor
 --ignore-dir=.m2
 --ignore-dir=.ivy2
