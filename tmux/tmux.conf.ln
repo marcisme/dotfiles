@@ -68,7 +68,7 @@ bind -r C-l resize-pane -R
 
 # set status bar
 set-option -g status-utf8 on
-set-option -g status-fg colour4
+set-option -g status-fg '#0080ff'
 set-option -g status-bg default
 
 # pane border and colors
