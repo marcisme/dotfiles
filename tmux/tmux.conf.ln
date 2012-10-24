@@ -1,6 +1,5 @@
 set -g default-terminal "screen-256color"
 set-window-option -g mode-keys vi
-set-window-option -g other-pane-height 20
 
 # remap prefix to Control + a
 set -g prefix C-a
