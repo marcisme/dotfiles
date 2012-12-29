@@ -197,9 +197,7 @@ map <C-H> :tabprevious<CR>
 nmap <Leader>do :only! \| :diffoff!<CR>
 
 " snipmate
-let g:snips_trigger_key='<c-space>'
 let g:snipMate = {}
-let g:snipMate['snippet_dirs'] = ['~/.vim']
 let g:snipMate.scope_aliases = {}
 let g:snipMate.scope_aliases['ruby'] = 'ruby,motion'
 
