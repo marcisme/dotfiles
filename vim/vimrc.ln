@@ -157,7 +157,7 @@ let g:ctrlp_working_path_mode = 0
 
 " ctrlp ignores
 let g:ctrlp_custom_ignore = {
-  \ 'dir': 'build$\|\.git$\|\.storyboardc$\|\.svn$\|target$\|\.unpack$\|vendor$\|tmp/cache$',
+  \ 'dir': 'build$\|\.git$\|\.storyboardc$\|\.svn$\|target$\|\.unpack$\|vendor$\|tmp/cache$\|ib\.xcodeproj$',
   \ 'file': 'ctags$\|\.ccignore$\|\.DS_Store$\|\.gitignore$\|\.repl_history$',
   \ 'link': '',
   \ }
