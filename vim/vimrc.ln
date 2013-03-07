@@ -57,6 +57,7 @@ set expandtab
 set smarttab
 set autoindent
 set wildmenu
+set backspace=indent
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Thank you, Gary
