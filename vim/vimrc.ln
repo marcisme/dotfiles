@@ -13,6 +13,7 @@ let vam_addons = [
   \ 'repeat',
   \ 'vimux',
   \ 'snipmate',
+  \ 'vim-coffee-script'
   \ ]
 
 call SetupVAM(vam_addons)
