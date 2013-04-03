@@ -189,7 +189,7 @@ function! Preserve(command)
   call setpos('.', pos)
 endfunction
 
-nmap <Leader>w :call Preserve('%s/\s\+$//e')<CR>
+nmap <Leader>w :retab \| :call Preserve('%s/\s\+$//e')<CR>
 
 " tab cycling
 map <C-L> :tabnext<CR>
