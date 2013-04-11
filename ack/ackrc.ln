@@ -6,3 +6,4 @@
 --ignore-dir=.ivy2
 --ignore-dir=target
 --ignore-dir=.unpack
+--ignore-dir=.idea
