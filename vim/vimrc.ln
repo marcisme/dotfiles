@@ -12,7 +12,7 @@ let vam_addons = [
   \ 'unimpaired',
   \ 'repeat',
   \ 'vimux',
-  \ 'snipmate',
+  \ 'vim-snippets',
   \ 'vim-coffee-script'
   \ ]
 
