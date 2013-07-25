@@ -1,0 +1,18 @@
+config modalEscapeKey esc
+
+alias modalTriggerKey m,cmd,shift
+
+bind l:${modalTriggerKey}:toggle nudge +10% +0
+bind h:${modalTriggerKey}:toggle nudge -10% +0
+bind k:${modalTriggerKey}:toggle nudge +0   -10%
+bind j:${modalTriggerKey}:toggle nudge +0   +10%
+
+bind .:${modalTriggerKey}:toggle push right
+bind n:${modalTriggerKey}:toggle push left
+bind ,:${modalTriggerKey}:toggle push up
+bind m:${modalTriggerKey}:toggle push down
+
+bind o:${modalTriggerKey}:toggle resize +10% +0
+bind y:${modalTriggerKey}:toggle resize -10% +0
+bind i:${modalTriggerKey}:toggle resize +0   -10%
+bind u:${modalTriggerKey}:toggle resize +0   +10%
