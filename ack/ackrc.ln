@@ -7,3 +7,4 @@
 --ignore-dir=target
 --ignore-dir=.unpack
 --ignore-dir=.idea
+--ignore-file=is:tags
