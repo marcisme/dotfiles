@@ -11,7 +11,7 @@ let vam_addons = [
   \ 'github:tpope/vim-bundler',
   \ 'unimpaired',
   \ 'repeat',
-  \ 'vimux',
+  \ 'github:thoughtbot/vim-rspec',
   \ 'vim-snippets',
   \ 'vim-coffee-script'
   \ ]
@@ -171,11 +171,12 @@ let g:ctrlp_open_multiple_files = 't'
 set list listchars=tab:>-,trail:-
 " highlight SpecialKey ctermbg=red guibg=red
 
-" Vimux mappings
-nmap <Leader>c :VimuxPromptCommand<CR>
-nmap <Leader>r :VimuxRunLastCommand<CR>
-nmap <Leader>R :call VimuxInterruptRunner() \| call VimuxRunLastCommand()<CR>
-nmap <Leader>t :call VimuxRunCommand('rake spec files=' . bufname('%'))<CR>
+" rubymotion testing mappings
+nmap <Leader>r :w!\|!rake simulator<CR>
+nmap <Leader>T :w!\|!rake spec<CR>
+" abusing vim-rspec to run current spec file
+let g:rspec_command = "!rake spec files={spec}"
+nmap <Leader>t :w!\|:call RunCurrentSpecFile()<CR>
 
 " whitespace cleanup - largely "yanked" from:
 " http://technotales.wordpress.com/2010/03/31/preserve-a-vim-function-that-keeps-your-state/
