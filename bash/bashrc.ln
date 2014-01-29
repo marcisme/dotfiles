@@ -3,21 +3,8 @@ set -o vi
 
 export EDITOR=vim
 
-if [ "$(uname)" == "Darwin" ]; then
-  if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    source $(brew --prefix)/etc/bash_completion
-  fi
-else # linux
-  if [ -f /etc/bash_completion ]; then
-    source /etc/bash_completion
-  else
-    if [ ! -f ~/.git-completion.bash ]; then
-      curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
-      curl https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh -o ~/.git-prompt.sh
-    fi
-    source ~/.git-completion.bash
-    source ~/.git-prompt.sh
-  fi
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  source $(brew --prefix)/etc/bash_completion
 fi
 
 # source it all
