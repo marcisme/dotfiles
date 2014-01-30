@@ -16,6 +16,7 @@ alias gd="g diff"
 alias gdc="gd --cached"
 alias gf="g fetch"
 alias gpr="g pull --rebase"
+alias gtfo="g reset --hard && g clean -fd"
 
 # make completion work for g
 # http://askubuntu.com/questions/62095/how-to-alias-git-to-g-so-that-bash-completion-rules-are-preserved
