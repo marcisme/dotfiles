@@ -2,7 +2,6 @@
 .classpath
 .project
 .settings/
-bin/
 # maven output directory
 target/
 # ant output directory
