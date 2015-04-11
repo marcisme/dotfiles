@@ -12,7 +12,6 @@ let vam_addons = [
   \ 'unimpaired',
   \ 'repeat',
   \ 'github:thoughtbot/vim-rspec',
-  \ 'vim-snippets',
   \ 'vim-coffee-script'
   \ ]
 
@@ -211,11 +210,6 @@ map <C-H> :tabprevious<CR>
 
 " make the current split the only one and turn diff off
 nmap <Leader>do :only! \| :diffoff!<CR>
-
-" snipmate
-let g:snipMate = {}
-let g:snipMate.scope_aliases = {}
-let g:snipMate.scope_aliases['ruby'] = 'ruby,motion'
 
 " jslint script
 nmap <Leader>j :!jslint %<CR>
