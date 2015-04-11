@@ -1,6 +1,7 @@
 --type-add=ruby=.haml,.rake,.rsel
 --type-set=cuke=.feature
 --type-set=plist=.plist
+--type-set=swift=.swift
 --ignore-dir=vendor
 --ignore-dir=.m2
 --ignore-dir=.ivy2
