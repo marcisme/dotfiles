@@ -24,3 +24,5 @@ build
 xcuserdata
 # ctags
 tags
+# todo backup files
+todo.txt.bak
