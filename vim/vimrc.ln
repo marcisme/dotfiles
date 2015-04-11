@@ -221,4 +221,4 @@ let g:snipMate.scope_aliases['ruby'] = 'ruby,motion'
 nmap <Leader>j :!jslint %<CR>
 
 " preview in Marked
-:nnoremap <leader>m :silent !open -a Marked.app '%:p'<cr>
+:nnoremap <leader>m :silent !open -a 'Marked 2' '%:p'<cr>
