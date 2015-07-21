@@ -182,13 +182,6 @@ let g:ctrlp_open_multiple_files = 't'
 set list listchars=tab:>-,trail:-
 " highlight SpecialKey ctermbg=red guibg=red
 
-" rubymotion testing mappings
-nmap <Leader>r :w!\|!rake simulator<CR>
-nmap <Leader>T :w!\|!rake spec<CR>
-" abusing vim-rspec to run current spec file
-let g:rspec_command = "!rake spec files={spec}"
-nmap <Leader>t :w!\|:call RunCurrentSpecFile()<CR>
-
 " whitespace cleanup - largely "yanked" from:
 " http://technotales.wordpress.com/2010/03/31/preserve-a-vim-function-that-keeps-your-state/
 function! Preserve(command)
