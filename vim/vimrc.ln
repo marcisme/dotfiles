@@ -10,6 +10,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/tComment'
@@ -49,8 +50,6 @@ set statusline+=[%b][0x%B]
 set statusline+=%{fugitive#statusline()}
 
 " tabbing ish
-set shiftwidth=2
-set tabstop=2
 set expandtab
 set smarttab
 set autoindent
