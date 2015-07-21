@@ -54,10 +54,39 @@ set shiftround
 set splitbelow
 set splitright
 
-" vim-rspec mappings
-nnoremap <Leader>t :call RunCurrentSpecFile()<CR>
-nnoremap <Leader>s :call RunNearestSpec()<CR>
-nnoremap <Leader>l :call RunLastSpec()<CR>
+" don't add comment prefix when opening new lines
+set formatoptions-=o
+
+" searching
+set hlsearch
+set ignorecase
+set smartcase
+
+" yank to system clipboard
+set clipboard=unnamed
+
+" override javascript commenting
+let g:tcomment_types = {
+  \ 'javascript': '// %s',
+  \ 'javascript_inline': '// %s',
+  \ 'javascript_block': '// %s',
+  \ 'javaScript': '// %s',
+  \ 'javaScript_inline': '// %s',
+  \ 'javaScript_block': '// %s',
+  \ }
+
+" don't manage working directory
+let g:ctrlp_working_path_mode = 0
+
+" ctrlp ignores
+let g:ctrlp_custom_ignore = {
+  \ 'dir': 'build$\|\.git$\|\.storyboardc$\|\.svn$\|target$\|\.unpack$\|vendor$\|tmp/cache$\|ib\.xcodeproj$',
+  \ 'file': 'ctags$\|\.ccignore$\|\.DS_Store$\|\.gitignore$\|\.repl_history$',
+  \ 'link': '',
+  \ }
+
+" open multiple files in separate tabs
+let g:ctrlp_open_multiple_files = 't'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Thank you, Gary
@@ -128,24 +157,6 @@ augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" don't add comment prefix when opening new lines
-set formatoptions-=o
-
-" override javascript commenting
-let g:tcomment_types = {
-  \ 'javascript': '// %s',
-  \ 'javascript_inline': '// %s',
-  \ 'javascript_block': '// %s',
-  \ 'javaScript': '// %s',
-  \ 'javaScript_inline': '// %s',
-  \ 'javaScript_block': '// %s',
-  \ }
-
-" searching
-set hlsearch
-set ignorecase
-set smartcase
-
 " Use The Silver Searcher if available, else ack
 " http://robots.thoughtbot.com/faster-grepping-in-vim
 if executable('ag')
@@ -161,22 +172,6 @@ else
   " it's better than grep
   set grepprg=ack
 endif
-
-" yank to system clipboard
-set clipboard=unnamed
-
-" don't manage working directory
-let g:ctrlp_working_path_mode = 0
-
-" ctrlp ignores
-let g:ctrlp_custom_ignore = {
-  \ 'dir': 'build$\|\.git$\|\.storyboardc$\|\.svn$\|target$\|\.unpack$\|vendor$\|tmp/cache$\|ib\.xcodeproj$',
-  \ 'file': 'ctags$\|\.ccignore$\|\.DS_Store$\|\.gitignore$\|\.repl_history$',
-  \ 'link': '',
-  \ }
-
-" open multiple files in separate tabs
-let g:ctrlp_open_multiple_files = 't'
 
 " whitespace cleanup - largely "yanked" from:
 " http://technotales.wordpress.com/2010/03/31/preserve-a-vim-function-that-keeps-your-state/
@@ -204,3 +199,8 @@ nmap <Leader>j :!jslint %<CR>
 
 " preview in Marked
 :nnoremap <leader>m :silent !open -a 'Marked 2' '%:p'<cr>
+
+" vim-rspec mappings
+nnoremap <Leader>t :call RunCurrentSpecFile()<CR>
+nnoremap <Leader>s :call RunNearestSpec()<CR>
+nnoremap <Leader>l :call RunLastSpec()<CR>
