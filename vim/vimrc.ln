@@ -50,6 +50,10 @@ set statusline+=%{fugitive#statusline()}
 set expandtab
 set shiftround
 
+" where to open splits
+set splitbelow
+set splitright
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Thank you, Gary
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
