@@ -38,7 +38,6 @@ set ruler
 set laststatus=2
 set encoding=utf-8
 set cursorline
-set showmatch
 " preserve scrollback - http://www.shallowsky.com/linux/noaltscreen.html
 set t_ti= t_te=
 
