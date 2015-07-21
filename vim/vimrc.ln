@@ -10,6 +10,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -20,22 +21,18 @@ call plug#end()
 " we now return to your regularly scheduled .vimrc
 let mapleader = ','
 set nocompatible
-filetype indent plugin on
 
 " backup files
 set backupdir=~/.vim/tmp
 set directory=~/.vim/tmp
 
 " solarized setup
-syntax enable
 let g:solarized_termcolors=256
 set background=light
 colorscheme solarized
 
 " display customization
 set number
-set ruler
-set laststatus=2
 set encoding=utf-8
 set cursorline
 " preserve scrollback - http://www.shallowsky.com/linux/noaltscreen.html
@@ -51,10 +48,6 @@ set statusline+=%{fugitive#statusline()}
 
 " tabbing ish
 set expandtab
-set smarttab
-set autoindent
-set wildmenu
-set backspace=indent
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Thank you, Gary
@@ -140,7 +133,6 @@ let g:tcomment_types = {
 
 " searching
 set hlsearch
-set incsearch
 set ignorecase
 set smartcase
 
@@ -175,10 +167,6 @@ let g:ctrlp_custom_ignore = {
 
 " open multiple files in separate tabs
 let g:ctrlp_open_multiple_files = 't'
-
-" make tabs and trailing space obvious
-set list listchars=tab:>-,trail:-
-" highlight SpecialKey ctermbg=red guibg=red
 
 " whitespace cleanup - largely "yanked" from:
 " http://technotales.wordpress.com/2010/03/31/preserve-a-vim-function-that-keeps-your-state/
