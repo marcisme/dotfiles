@@ -1,21 +1,18 @@
-source ~/.vim/vam-init.vim
+call plug#begin('~/.vim/plugged')
 
-let vam_addons = [
-  \ 'github:altercation/vim-colors-solarized',
-  \ 'ctrlp',
-  \ 'tComment',
-  \ 'fugitive',
-  \ 'surround',
-  \ 'rails',
-  \ 'rake',
-  \ 'github:tpope/vim-bundler',
-  \ 'unimpaired',
-  \ 'repeat',
-  \ 'github:thoughtbot/vim-rspec',
-  \ 'vim-coffee-script'
-  \ ]
+Plug 'altercation/vim-colors-solarized'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-scripts/tComment'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-bundler'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-repeat'
+Plug 'thoughtbot/vim-rspec'
+Plug 'kchmck/vim-coffee-script'
 
-call SetupVAM(vam_addons)
+call plug#end()
 
 " we now return to your regularly scheduled .vimrc
 let mapleader = ','
