@@ -48,6 +48,7 @@ set statusline+=%{fugitive#statusline()}
 
 " tabbing ish
 set expandtab
+set shiftround
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Thank you, Gary
