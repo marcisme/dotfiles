@@ -156,6 +156,7 @@ augroup vimrcEx
   autocmd! CmdwinLeave * :call MapCR()
 
   autocmd FileType gitrebase setlocal nomodeline
+  autocmd FileType gitcommit setlocal spell
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
