@@ -192,8 +192,8 @@ endfunction
 nmap <Leader>w :retab \| :call Preserve('%s/\s\+$//e')<CR>
 
 " tab cycling
-map <C-L> :tabnext<CR>
-map <C-H> :tabprevious<CR>
+map <C-J> :tabprevious<CR>
+map <C-K> :tabnext<CR>
 
 " make the current split the only one and turn diff off
 nmap <Leader>do :only! \| :diffoff!<CR>
