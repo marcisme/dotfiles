@@ -8,7 +8,7 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
 fi
 
 # source it all
-for f in $(find -L ~/.dotfiles -name \*.bash); do
+for f in $(ls ~/.dotfiles/*/*.bash); do
   source $f
 done
 
