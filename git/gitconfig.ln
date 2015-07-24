@@ -1,0 +1,31 @@
+[core]
+  excludesfile = /Users/marc/.gitignore
+  editor = /usr/local/bin/mvim -v
+[color]
+  ui = auto
+[merge]
+  tool = mvimdiff
+[alias]
+  c = commit
+  ca = commit --amend
+  caf = commit --amend -C HEAD
+  co = checkout
+  s = status
+  sh = show
+  a = add
+  l = log
+  lo = log --oneline
+  lg = log --graph
+  ln = log --oneline --name-status
+  t = tag
+  b = branch
+  d = diff
+  dc = diff --cached
+  r = reset
+  f = fetch
+  pr = pull --rebase
+  tfo = !git reset --hard && git clean -fd
+[push]
+  default = simple
+[include]
+  path = .gitconfig.local
