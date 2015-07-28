@@ -1,7 +1,7 @@
 # vi rules
 set -o vi
 
-export EDITOR=vim
+export EDITOR="mvim -v"
 
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
   source $(brew --prefix)/etc/bash_completion
