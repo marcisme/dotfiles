@@ -209,6 +209,6 @@ nmap <Leader>j :!jslint %<CR>
 :nnoremap <leader>m :silent !open -a 'Marked 2' '%:p'<cr>
 
 " vim-rspec mappings
-nnoremap <Leader>t :call RunCurrentSpecFile()<CR>
-nnoremap <Leader>s :call RunNearestSpec()<CR>
-nnoremap <Leader>l :call RunLastSpec()<CR>
+nnoremap <Leader>t :w!\|:call RunCurrentSpecFile()<CR>
+nnoremap <Leader>s :w!\|:call RunNearestSpec()<CR>
+nnoremap <Leader>l :w!\|:call RunLastSpec()<CR>
