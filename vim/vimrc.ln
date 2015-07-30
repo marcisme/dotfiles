@@ -212,3 +212,6 @@ nmap <Leader>j :!jslint %<CR>
 nnoremap <Leader>t :w!\|:call RunCurrentSpecFile()<CR>
 nnoremap <Leader>s :w!\|:call RunNearestSpec()<CR>
 nnoremap <Leader>l :w!\|:call RunLastSpec()<CR>
+
+" Generate tags for current project
+map <Leader>c :silent !ctags -R .<CR>
