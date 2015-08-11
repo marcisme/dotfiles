@@ -3,4 +3,4 @@ alias vimm='vim ~/Library/Application\ Support/MailMate/Resources/KeyBindings/Cu
 alias spd='cd ~/Library/Containers/com.bohemiancoding.sketch/Data/Library/Application\ Support/sketch/Plugins'
 alias t='todo.sh'
 alias psxc='ps -ef | grep -i xcode'
-alias ls='ls -FG'
+alias ls='ls -G'
