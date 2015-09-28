@@ -1,5 +1,5 @@
 [core]
-  excludesfile = /Users/marc/.gitignore
+  excludesfile = ~/.gitignore
   editor = /usr/local/bin/mvim -v
 [color]
   ui = auto
