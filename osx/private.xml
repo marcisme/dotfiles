@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<root>
+  <item>
+    <name>F19 to Escape or Control</name>
+    <appendix>(Hold F19 to ctrl, tap F19 to send escape)</appendix>
+    <identifier>private.f19_escape_control</identifier>
+    <autogen>
+      __KeyOverlaidModifier__
+      KeyCode::F19,
+      KeyCode::CONTROL_L,
+      KeyCode::ESCAPE
+    </autogen>
+  </item>
+  <item>
+    <name>Control_L to All_The_Things</name>
+    <appendix>Control_L to ctrl+cmd+opt</appendix>
+    <identifier>private.ctrl_ctrl_cmd_opt</identifier>
+    <autogen>
+      __KeyOverlaidModifier__
+      KeyCode::CONTROL_L,
+      KeyCode::CONTROL_L,
+      ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L
+    </autogen>
+  </item>
+</root>
