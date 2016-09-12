@@ -57,7 +57,6 @@ bind -r Up resize-pane -U
 bind -r Right resize-pane -R
 
 # set status bar
-set-option -g status-utf8 on
 set-option -g status-fg '#0080ff'
 set-option -g status-bg default
 
