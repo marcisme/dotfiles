@@ -26,6 +26,6 @@
   pr = pull --rebase
   tfo = !git reset --hard && git clean -fd
 [push]
-  default = simple
+  default = current
 [include]
   path = .gitconfig.local
