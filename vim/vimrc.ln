@@ -41,8 +41,6 @@ set number
 set encoding=utf-8
 set cursorline
 set list
-" preserve scrollback - http://www.shallowsky.com/linux/noaltscreen.html
-set t_ti= t_te=
 
 " statusline originally from janus
 set statusline=%f\ %m\ %r
