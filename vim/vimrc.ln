@@ -3,12 +3,12 @@ call plug#begin('~/.vim/plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'elixir-lang/vim-elixir'
+Plug 'janko-m/vim-test'
 Plug 'kchmck/vim-coffee-script'
 Plug 'keith/swift.vim'
 Plug 'pbrisbin/vim-mkdir'
 Plug 'scrooloose/syntastic'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-Plug 'thoughtbot/vim-rspec'
 Plug 'tpope/vim-bundler'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
@@ -210,10 +210,10 @@ nmap <Leader>j :!jslint %<CR>
 " preview in Marked
 :nnoremap <leader>m :silent !open -a 'Marked 2' '%:p'<cr>
 
-" vim-rspec mappings
-nnoremap <Leader>t :w!\|:call RunCurrentSpecFile()<CR>
-nnoremap <Leader>s :w!\|:call RunNearestSpec()<CR>
-nnoremap <Leader>l :w!\|:call RunLastSpec()<CR>
+" vim-test mappings
+nnoremap <leader>t :w!\|:TestFile<CR>
+nnoremap <leader>s :w!\|:TestNearest<CR>
+nnoremap <leader>l :w!\|:TestLast<CR>
 
 " Generate tags for current project
 map <Leader>c :silent !ctags -R .<CR>
