@@ -1,0 +1,74 @@
+tap 'caskroom/cask'
+tap 'homebrew/bundle'
+tap 'homebrew/core'
+tap 'homebrew/services'
+brew 'ack'
+brew 'bash-completion'
+brew 'ctags'
+brew 'git'
+brew 'go'
+brew 'elixir'
+brew 'jsonpp'
+brew 'macvim', args: ['with-override-system-vim']
+brew 'mas'
+brew 'mplayer'
+brew 'node'
+brew 'postgresql', service_restart: true
+brew 'rbenv'
+brew 'rbenv-ctags'
+brew 'rbenv-default-gems'
+brew 'ruby-build'
+brew 'reattach-to-user-namespace'
+brew 'sourcekitten'
+brew 'the_silver_searcher'
+brew 'tmate'
+brew 'tmux'
+brew 'trash'
+brew 'tree'
+brew 'xctool'
+brew 'youtube-dl'
+cask 'alfred'
+cask 'backblaze'
+cask 'docker'
+cask 'dropbox'
+cask 'gitter'
+cask 'google-chrome'
+cask 'karabiner'
+cask 'marked'
+cask 'nvalt'
+cask 'omnifocus'
+cask 'seil'
+cask 'skala-preview'
+cask 'superduper'
+cask 'viscosity'
+cask 'vlc'
+mas 'Briefs', id: 626221782
+mas 'GIFBrewery', id: 435989461
+mas 'Reeder', id: 880001334
+mas 'LiveReload', id: 482898991
+mas 'Pixelmator', id: 407963104
+mas 'Deckset', id: 847496013
+mas 'Logic Pro X', id: 634148309
+mas 'Xcode', id: 497799835
+mas 'Sip', id: 507257563
+mas 'PCalc', id: 403504866
+mas 'Tweetbot', id: 557168941
+mas 'Deliveries', id: 924726344
+mas 'Shush', id: 496437906
+mas 'xScope', id: 889428659
+mas 'Calca', id: 635758264
+mas 'PopClip', id: 445189367
+mas 'Dash', id: 449589707
+mas 'Napkin', id: 581789185
+mas 'Lingo', id: 624884154
+mas 'SideMirror', id: 944860108
+mas 'Hype2', id: 685096913
+mas 'Fantastical 2', id: 975937182
+mas 'Slack', id: 803453959
+mas 'Soulver', id: 413965349
+mas 'Caffeine', id: 411246225
+mas 'Kindle', id: 405399194
+mas 'CheatSheet', id: 529456740
+mas 'Receigen', id: 452840086
+mas 'Divvy', id: 413857545
+mas 'iStat Mini', id: 927292435
