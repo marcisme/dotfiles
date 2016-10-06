@@ -2,6 +2,10 @@ tap 'caskroom/cask'
 tap 'homebrew/bundle'
 tap 'homebrew/core'
 tap 'homebrew/services'
+
+brew 'mas'
+mas 'Xcode', id: 497799835
+
 brew 'ack'
 brew 'bash-completion'
 brew 'ctags'
@@ -10,7 +14,6 @@ brew 'go'
 brew 'elixir'
 brew 'jsonpp'
 brew 'macvim', args: ['with-override-system-vim']
-brew 'mas'
 brew 'mplayer'
 brew 'node'
 brew 'postgresql', service_restart: true
@@ -49,7 +52,6 @@ mas 'LiveReload', id: 482898991
 mas 'Pixelmator', id: 407963104
 mas 'Deckset', id: 847496013
 mas 'Logic Pro X', id: 634148309
-mas 'Xcode', id: 497799835
 mas 'Sip', id: 507257563
 mas 'PCalc', id: 403504866
 mas 'Tweetbot', id: 557168941
