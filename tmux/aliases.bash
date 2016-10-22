@@ -7,3 +7,4 @@ alias tm="tmux new-session \; \
   select-pane -t 0 \; \
   split-window -v -l 24 \; split-window -h -l 84 \; select-pane -t 1 \; split-window -h -l 84 \; \
   select-pane -t 0 \;"
+alias st='tmux rename-window $(basename $(pwd))'
