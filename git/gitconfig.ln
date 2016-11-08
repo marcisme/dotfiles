@@ -25,6 +25,7 @@
   f = fetch
   pr = pull --rebase
   tfo = !git reset --hard && git clean -fd
+  prune = remote update --prune
 [push]
   default = current
 [include]
