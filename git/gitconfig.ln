@@ -1,6 +1,7 @@
 [core]
   excludesfile = ~/.gitignore
   editor = /usr/local/bin/mvim -v
+  whitespace = tab-in-indent
 [color]
   ui = auto
 [merge]
