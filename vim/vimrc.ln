@@ -219,6 +219,7 @@ nmap <Leader>j :!jslint %<CR>
 nnoremap <leader>t :w!\|:TestFile<CR>
 nnoremap <leader>s :w!\|:TestNearest<CR>
 nnoremap <leader>l :w!\|:TestLast<CR>
+nnoremap <leader>a :w!\|:TestSuite<CR>
 
 " Generate tags for current project
 map <Leader>c :silent !ctags -R .<CR>
