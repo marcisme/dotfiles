@@ -70,3 +70,5 @@ set-option -g pane-border-fg colour240
 
 # minimize escape delay
 set -s escape-time 0
+
+set-option -g history-limit 10000
