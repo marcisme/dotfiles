@@ -231,3 +231,6 @@ nnoremap <leader>a :w!\|:TestSuite<CR>
 
 " Generate tags for current project
 map <Leader>c :silent !ctags -R .<CR>
+
+" Run current script
+map ,r :w!\|:!%<cr>
