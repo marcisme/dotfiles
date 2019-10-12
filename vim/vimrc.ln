@@ -19,7 +19,14 @@ Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+" supress python warning
+" https://github.com/vim/vim/issues/3117#issuecomment-406853295
+if !has('patch-8.1.201')
+  silent! python3 1
+endif
 Plug 'Valloric/YouCompleteMe'
+
 Plug 'vim-ruby/vim-ruby'
 Plug 'vim-scripts/tComment'
 
