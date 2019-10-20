@@ -61,12 +61,11 @@ bind -r Up resize-pane -U
 bind -r Right resize-pane -R
 
 # set status bar
-set-option -g status-fg '#0080ff'
-set-option -g status-bg default
+set-option -g status-style fg='#0080ff',bg=default
 
 # pane border and colors
-set-option -g pane-active-border-fg colour4
-set-option -g pane-border-fg colour240
+set-option -g pane-active-border-style fg=colour4
+set-option -g pane-border-style fg=colour240
 
 # minimize escape delay
 set -s escape-time 0
