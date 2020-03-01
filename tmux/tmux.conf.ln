@@ -52,7 +52,7 @@ bind-key -r C-l select-window -t :+
 unbind %
 bind - split-window
 unbind '"'
-bind \ split-window -h
+bind '\' split-window -h
 
 # pane resizing
 bind -r Left resize-pane -L
