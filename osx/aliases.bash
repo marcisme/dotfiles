@@ -1,9 +1,0 @@
-alias ldd='otool -L'
-alias vimm='vim ~/Library/Application\ Support/MailMate/Resources/KeyBindings/Custom.plist'
-alias spd='cd ~/Library/Containers/com.bohemiancoding.sketch/Data/Library/Application\ Support/sketch/Plugins'
-alias t='todo.sh'
-alias psxc='ps -ef | grep -i "[x]code"'
-alias fuxc="kill -9 $(ps -ef | grep -i '[x]code' | awk '{ print $2; }')"
-alias fudd='rm -rf $HOME/Library/Developer/Xcode/DerivedData'
-alias ls='ls -G'
-alias lsid='security find-identity -p codesigning'

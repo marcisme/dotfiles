@@ -1,0 +1,3 @@
+EXCLUDES="README.md"
+SYMLINK_DIRS="vim/plugged vim/tmp"
+UNDOTTED="bin"
