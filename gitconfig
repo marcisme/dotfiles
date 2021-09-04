@@ -31,3 +31,5 @@
   default = current
 [include]
   path = .gitconfig.local
+[init]
+  defaultBranch = main
