@@ -1,6 +1,6 @@
 [core]
   excludesfile = ~/.gitignore
-  editor = /opt/homebrew/bin/mvim -v
+  editor = mvim -v
   whitespace = tab-in-indent
 [color]
   ui = auto
