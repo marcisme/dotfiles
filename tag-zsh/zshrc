@@ -1,0 +1,65 @@
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+  autoload -Uz compinit
+  compinit
+fi
+
+# vi rules
+bindkey -v
+bindkey "^R" history-incremental-search-backward
+
+# git prompt custumizations
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWUNTRACKEDFILES=1
+export GIT_PS1_SHOWUPSTREAM='verbose'
+
+if [ -f "$(brew --prefix)/etc/bash_completion.d/git-prompt.sh" ]; then
+  source $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
+fi
+
+setopt PROMPT_SUBST
+GIT_STATUS=$'$(__git_ps1 " (%s)")'
+NEWLINE=$'\n'
+export PROMPT="%n@%m:%~${GIT_STATUS}${NEWLINE}> "
+
+alias g="git"
+
+alias ldd='otool -L'
+alias vimm='vim ~/Library/Application\ Support/MailMate/Resources/KeyBindings/Custom.plist'
+alias spd='cd ~/Library/Containers/com.bohemiancoding.sketch/Data/Library/Application\ Support/sketch/Plugins'
+alias t='todo.sh'
+alias psxc='ps -ef | grep -i "[x]code"'
+function fuxc { kill -9 $(ps -ef | grep -i '[x]code' | awk '{ print $2; }') }
+alias fudd='rm -rf $HOME/Library/Developer/Xcode/DerivedData'
+alias ls='ls -G'
+alias lsid='security find-identity -p codesigning'
+
+# brew aliases
+alias bru="brew update && brew outdated"
+alias lsl='lsregister -dump'
+alias lsk='lsregister -kill -r -domain local -domain system -domain user'
+alias b="bundle"
+alias be="b exec"
+alias bi="b install"
+alias biv="b install --path vendor"
+alias bu="b update"
+alias bake="be rake"
+alias r="rails"
+alias tml="tmux list-sessions"
+alias tma="tmux attach-session"
+alias tmc="clear && tmux clear-history"
+alias tmk="tmux kill-session"
+alias tm="tmux new-session \; \
+  split-window -v -l 24 \; split-window -h -l 84 \; select-pane -t 1 \; split-window -h -l 84 \; \
+  select-pane -t 0 \; \
+  split-window -v -l 24 \; split-window -h -l 84 \; select-pane -t 1 \; split-window -h -l 84 \; \
+  select-pane -t 0 \;"
+alias st='tmux rename-window $(basename $(pwd))'
+alias tx='tmuxinator'
+alias vi=vim
+
+if [ "$(uname)" = "Darwin" ]; then
+  alias vim='mvim -v'
+fi
