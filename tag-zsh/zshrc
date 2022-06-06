@@ -19,7 +19,14 @@ export PATH=${REBEL_HOME}/bin:${PATH}
 
 # vi rules
 bindkey -v
+
+# Bind ^R to search backwards in command history like bash.
 bindkey "^R" history-incremental-search-backward
+
+# Bind space to edit in $EDITOR from command mode.
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd ' ' edit-command-line
 
 # git prompt custumizations
 export GIT_PS1_SHOWDIRTYSTATE=1
