@@ -1,16 +1,4 @@
 export EDITOR="mvim -v"
 
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=$HOME/bin:$PATH
 export ACK_PAGER="less -R"
-
-eval $(/opt/homebrew/bin/brew shellenv)
-
-# rbenv setup
-if which rbenv &> /dev/null; then eval "$(rbenv init -)"; fi
-
-# direnv setup
-export DIRENV_LOG_FORMAT=""
-if which direnv &> /dev/null; then eval "$(direnv hook bash)"; fi
-
-export REBEL_HOME=/opt/jrebel
-export PATH=${REBEL_HOME}/bin:${PATH}

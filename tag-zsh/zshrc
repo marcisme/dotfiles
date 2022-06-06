@@ -1,9 +1,21 @@
+eval $(/opt/homebrew/bin/brew shellenv)
+
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
   autoload -Uz compinit
   compinit
 fi
+
+# rbenv setup
+if which rbenv &> /dev/null; then eval "$(rbenv init - zsh)"; fi
+
+# direnv setup
+export DIRENV_LOG_FORMAT=""
+if which direnv &> /dev/null; then eval "$(direnv hook zsh)"; fi
+
+export REBEL_HOME=/opt/jrebel
+export PATH=${REBEL_HOME}/bin:${PATH}
 
 # vi rules
 bindkey -v
