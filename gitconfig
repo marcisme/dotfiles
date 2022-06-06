@@ -13,6 +13,7 @@
   co = checkout
   cp = !git commit -m 'checkpoint'
   cpa = !git add . && git commit -m 'checkpoint'
+  crm = commit --reuse-message=HEAD@{1}
   s = status
   sh = show
   shipit = !gh pr create -f && gh pr merge --auto -r -d
