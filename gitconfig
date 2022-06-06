@@ -32,6 +32,7 @@
   dc = diff --cached
   r = reset
   re = rebase -i
+  rma = rebase origin/main
   f = fetch
   pr = pull --rebase
   tfo = !git reset --hard && git clean -fd
