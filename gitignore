@@ -1,28 +1,32 @@
-# eclipse files
-.classpath
-.project
-.settings/
-# maven output directory
-target/
-# ant output directory
-build/
-# vi swap files
-*.swp
-# intellij files
-.idea/
-*.iml
-*.ipr
-*.iws
+# # eclipse files
+# .classpath
+# .project
+# .settings/
+# # maven output directory
+# target/
+# # ant output directory
+# build/
+# # vi swap files
+# *.swp
+# # intellij files
+# .idea/
+# *.iml
+# *.ipr
+# *.iws
+
 # osx files
 .DS_Store
-# xcode 3
-*.pbxuser
-*.perspectivev3
-*.mode1v3
-build
-# xcode 4
-xcuserdata
+
+# # xcode 3
+# *.pbxuser
+# *.perspectivev3
+# *.mode1v3
+# build
+# # xcode 4
+# xcuserdata
+
 # ctags
 tags
-# todo backup files
-todo.txt.bak
+
+# # todo backup files
+# todo.txt.bak
