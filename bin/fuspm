@@ -1,0 +1,6 @@
+#/usr/bin/env bash
+
+readonly spm_global_cache_dir="~/Library/Caches/org.swift.swiftpm"
+
+echo "Removing $spm_global_cache_dir"
+rm -rf "$spm_global_cache_dir"

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+readonly jwt="$1"
+
+exp=$(jwt decode "$jwt" | tail -8 | jq '.exp')
+date -jr "$exp"

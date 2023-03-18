@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+booted="$(xcrun simctl list | grep -i booted | head -1)"
+booted_uuid=$(echo "$booted" | grep -o -E '\w+-\w+-\w+-\w+-\w+')
+xcrun simctl privacy "$booted_uuid" reset all || exit 1
+echo "Reset all permissions for $booted"

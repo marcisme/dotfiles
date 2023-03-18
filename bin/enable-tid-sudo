@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# https://apple.stackexchange.com/questions/259093/can-touch-id-for-the-mac-touch-bar-authenticate-sudo-users-and-admin-privileges
+
+# readonly sudo_file="/etc/pam.d/sudo"
+cat /etc/pam.d/sudo > /tmp/test_sudo
+readonly sudo_file="/tmp/test_sudo"
+readonly line_to_insert="auth       sufficient     pam_tid.so"
+
+# echo grep "'$line_to_insert'" "$sudo_file"
+#
+# exit 0
+
+if grep "'$line_to_insert'" "$sudo_file" &> /dev/null; then
+  echo "'$sudo_file' already contains '$line_to_insert'"
+  exit 0
+fi
+
+echo "Inserting '$line_to_insert' into '$sudo_file'"
+echo
+cat "$sudo_file"
+echo
+
+sed -i '' "'2 a ""$line_to_insert""'" "$sudo_file"
+
+echo "'$sudo_file' now contains:"
+cat "$sudo_file"
+
+# auth       sufficient     pam_tid.so
+# cat /etc/pam.d/sudo
+
+# > cat /etc/pam.d/sudo
+# # sudo: auth account password session
+# auth       sufficient     pam_tid.so
+# auth       sufficient     pam_smartcard.so
+# auth       required       pam_opendirectory.so
+# account    required       pam_permit.so
+# password   required       pam_deny.so
+# session    required       pam_permit.so
+

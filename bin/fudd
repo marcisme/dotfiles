@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# https://lapcatsoftware.com/articles/DerivedData.html
+
+readonly dd="$HOME/Library/Developer/Xcode/DerivedData"
+
+if [ ! -d "$dd" ]; then
+  echo "DerivedData has already been removed."
+  exit 0
+fi
+
+echo "Removing $dd"
+
+osascript -e "tell application \"Finder\" to move POSIX file \"$dd\" to trash"
+osascript -e "tell application \"Finder\" to empty trash" &> /dev/null &

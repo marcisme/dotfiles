@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [ $# -lt 1 ]; then
+  echo "usage: $(basename "$0") <url>"
+  exit 1
+fi
+
+url="$1"
+
+booted="$(xcrun simctl list | grep -i booted | head -1)"
+booted_uuid=$(echo "$booted" | grep -o -E '\w+-\w+-\w+-\w+-\w+')
+xcrun simctl openurl "$booted_uuid" "$url"
