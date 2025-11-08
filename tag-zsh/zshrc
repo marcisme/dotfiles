@@ -91,3 +91,6 @@ PATH=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices
 
 # uv
 . "$HOME/.local/bin/env"
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
