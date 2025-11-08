@@ -94,3 +94,7 @@ PATH=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices
 
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
+
+# Lazy
+alias lg=lazygit
+alias ld=lazydocker
