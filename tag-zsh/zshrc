@@ -88,3 +88,6 @@ PATH=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices
 
 # Rust
 . "$HOME/.cargo/env"
+
+# uv
+. "$HOME/.local/bin/env"
