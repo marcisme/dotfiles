@@ -113,3 +113,5 @@ if [ "$(uname)" == "Darwin" ]; then
   alias vim='mvim -v'
 fi
 . "$HOME/.cargo/env"
+
+. "$HOME/.local/bin/env"
