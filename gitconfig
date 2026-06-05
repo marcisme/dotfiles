@@ -5,7 +5,7 @@
 [color]
   ui = auto
 [merge]
-  tool = mvimdiff
+  tool = kaleidoscope
 [alias]
   c = commit
   ca = commit --amend
@@ -43,3 +43,8 @@
   path = .gitconfig.local
 [init]
   defaultBranch = main
+[mergetool "kaleidoscope"]
+  cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+  trustExitCode = true
+[mergetool]
+  keepBackup = false
