@@ -97,6 +97,10 @@ PATH=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices
 # uv
 . "$HOME/.local/bin/env"
 
+# Docker Desktop
+fpath=("$HOME/.docker/completions" $fpath)
+PATH="$PATH:$HOME/.docker/bin"
+
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
