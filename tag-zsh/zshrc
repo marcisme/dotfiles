@@ -107,3 +107,6 @@ source <(fzf --zsh)
 # Lazy
 alias lg=lazygit
 alias ld=lazydocker
+
+# Zoxide
+eval "$(zoxide init zsh)"
