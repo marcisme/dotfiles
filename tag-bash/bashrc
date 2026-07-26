@@ -1,7 +1,8 @@
 # vi rules
 set -o vi
 
-export EDITOR="mvim -v"
+export EDITOR="nvim"
+export VISUAL="$EDITOR"
 
 # prompt
 #   * __git_ps1 is from bash git completion, so must come last. ish.
@@ -109,9 +110,7 @@ alias st='tmux rename-window $(basename $(pwd))'
 alias tx='tmuxinator'
 alias vi=vim
 
-if [ "$(uname)" == "Darwin" ]; then
-  alias vim='mvim -v'
-fi
+alias vim=nvim
 . "$HOME/.cargo/env"
 
 . "$HOME/.local/bin/env"
