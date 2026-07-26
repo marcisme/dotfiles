@@ -30,3 +30,5 @@ tags
 
 # # todo backup files
 # todo.txt.bak
+
+**/.claude/settings.local.json
