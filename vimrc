@@ -1,6 +1,7 @@
 call plug#begin('~/.vim/plugged')
 
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
+Plug 'jan-warchol/selenized', { 'rtp': 'editors/vim' }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'elixir-lang/vim-elixir'
 Plug 'janko-m/vim-test'
@@ -42,9 +43,14 @@ set backupdir=~/.vim/tmp
 set directory=~/.vim/tmp
 
 " solarized setup
-let g:solarized_termcolors=256
+" let g:solarized_termcolors=256
+" set background=dark
+" colorscheme solarized
+"
+" selenized setup
 set background=dark
-colorscheme solarized
+colorscheme selenized
+set termguicolors
 
 " display customization
 set number
