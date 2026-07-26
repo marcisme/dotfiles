@@ -80,6 +80,22 @@ alias st='tmux rename-window $(basename $(pwd))'
 alias tx='tmuxinator'
 alias vi=vim
 
+# Name the current tmux window after the Git repository containing the
+# working directory. Outside a repository, leave the existing name alone.
+autoload -Uz add-zsh-hook
+
+_tmux_name_window_from_git() {
+  [[ -n ${TMUX:-} ]] || return
+
+  local repo_root
+  repo_root=$(command git rev-parse --show-toplevel 2>/dev/null) || return
+
+  tmux rename-window -t "$TMUX_PANE" -- "${repo_root:t}"
+}
+
+add-zsh-hook chpwd _tmux_name_window_from_git
+add-zsh-hook precmd _tmux_name_window_from_git
+
 alias vim=nvim
 
 # JS
