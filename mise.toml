@@ -1,0 +1,63 @@
+min_version = "2026.7.0"
+
+[settings]
+dotfiles.default_mode = "symlink"
+dotfiles.root = "~/.dotfiles"
+
+[dotfiles]
+"~/.Brewfile" = "Brewfile"
+"~/.ackrc" = "ackrc"
+"~/.bash_profile" = "tag-bash/bash_profile"
+"~/.bashrc" = "tag-bash/bashrc"
+"~/.config/karabiner/karabiner.json" = { source = "config/karabiner/karabiner.json", mode = "copy" }
+"~/.config/nvim" = { source = "config/nvim", mode = "symlink-each" }
+"~/.config/tmux" = { source = "config/tmux", mode = "symlink-each" }
+"~/.gemrc" = "gemrc"
+"~/.gitconfig" = "gitconfig"
+"~/.gitignore" = "gitignore"
+"~/.gvimrc" = "gvimrc"
+"~/.inputrc" = "inputrc"
+"~/.railsrc" = "railsrc"
+"~/.rcrc" = "rcrc"
+"~/.rdebugrc" = "rdebugrc"
+"~/.sqshrc" = "sqshrc"
+"~/.vim/after" = { source = "vim/after", mode = "symlink-each" }
+"~/.vim/autoload" = { source = "vim/autoload", mode = "symlink-each" }
+"~/.vim/ftdetect" = { source = "vim/ftdetect", mode = "symlink-each" }
+"~/.vim/spell" = { source = "vim/spell", mode = "symlink-each" }
+"~/.vim/tmp" = "vim/tmp"
+"~/.vimrc" = "vimrc"
+"~/.zshenv" = "tag-zsh/zshenv"
+"~/.zshrc" = "tag-zsh/zshrc"
+"~/bin" = { source = "bin", mode = "symlink-each" }
+
+[bootstrap.packages]
+"brew:bash-completion" = "latest"
+"brew:cmake" = "latest"
+"brew:ffmpeg" = "latest"
+"brew:git" = "latest"
+"brew:go" = "latest"
+"brew:jsonpp" = "latest"
+"brew:media-info" = "latest"
+"brew:mise" = "latest"
+"brew:neovim" = "latest"
+"brew:node" = "latest"
+"brew:rbenv" = "latest"
+"brew:rcm" = "latest"
+"brew:reattach-to-user-namespace" = "latest"
+"brew:the_silver_searcher" = "latest"
+"brew:tmux" = "latest"
+"brew:tree" = "latest"
+"brew:universal-ctags" = "latest"
+"brew:websocat" = "latest"
+"brew:yt-dlp" = "latest"
+"brew-cask:figma" = "latest"
+"brew-cask:ghostty" = "latest"
+"brew-cask:marked-app" = "latest"
+"brew-cask:notion" = "latest"
+"brew-cask:setapp" = "latest"
+"brew-cask:simpholders" = "latest"
+"brew-cask:sketch" = "latest"
+"brew-cask:swiftformat-for-xcode" = "latest"
+"brew-cask:textexpander" = "latest"
+"brew-cask:zoom" = "latest"
