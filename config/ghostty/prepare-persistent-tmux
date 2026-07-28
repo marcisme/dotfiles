@@ -1,0 +1,121 @@
+#!/bin/zsh
+
+# Initialize snapshot support and restore once before any Ghostty surface
+# attaches. A detached bootstrap session keeps a new tmux server alive while
+# tmux-resurrect rebuilds the saved UUID-named sessions.
+
+setopt NO_UNSET
+
+readonly tmux_bin=/opt/homebrew/bin/tmux
+readonly script_dir=${0:A:h}
+readonly tmux_config="$script_dir/tmux-recovery.conf"
+readonly resurrect_root="$script_dir/../tmux/plugins/tmux-resurrect"
+readonly continuum_root="$script_dir/../tmux/plugins/tmux-continuum"
+readonly restore_script="$resurrect_root/scripts/restore.sh"
+readonly expected_restore_script=${restore_script:A}
+readonly resurrect_dir=${GHOSTTY_TMUX_RESURRECT_DIR:-"$script_dir/../tmux/resurrect"}
+readonly bootstrap_session=__ghostty_recovery_bootstrap__
+readonly state_option=@ghostty-recovery-state
+readonly ready_state=ready-v1
+readonly failed_state=failed-v1
+
+recovery_state() {
+    "$tmux_bin" show-options -gqv "$state_option" 2>/dev/null
+}
+
+schedule_bootstrap_cleanup() {
+    "$tmux_bin" run-shell -b \
+        "/bin/sleep 5; '$tmux_bin' kill-session -t '$bootstrap_session' 2>/dev/null || true"
+}
+
+if [[ ! -x $tmux_bin || ! -f $tmux_config ||
+    ! -x $restore_script || ! -x "$continuum_root/continuum.tmux" ]]; then
+    print -u2 -- "Ghostty: tmux recovery plugins are unavailable; starting without reboot recovery."
+    exit 0
+fi
+
+if [[ $(recovery_state) == $ready_state ]]; then
+    exit 0
+fi
+
+# new-session is the cross-process lock: exactly one concurrently restored
+# Ghostty surface can create the bootstrap session and become the initializer.
+created_bootstrap=0
+if "$tmux_bin" -f "$tmux_config" new-session -d -s "$bootstrap_session" &&
+    "$tmux_bin" has-session -t "$bootstrap_session" 2>/dev/null; then
+    created_bootstrap=1
+fi
+
+if (( created_bootstrap == 1 )); then
+    # A previous initializer may have completed between our first state check
+    # and bootstrap creation.
+    if [[ $(recovery_state) == $ready_state ]]; then
+        schedule_bootstrap_cleanup
+        exit 0
+    fi
+
+    server_path=$(
+        "$tmux_bin" show-environment -g PATH 2>/dev/null
+    )
+    server_path=${server_path#PATH=}
+    if [[ :$server_path: != *:/opt/homebrew/bin:* ]]; then
+        "$tmux_bin" set-environment -g PATH "/opt/homebrew/bin:$server_path"
+    fi
+
+    loaded_restore_script=$(
+        "$tmux_bin" show-options -gqv @resurrect-restore-script-path 2>/dev/null
+    )
+    if [[ ${loaded_restore_script:A} != $expected_restore_script ]]; then
+        if ! "$tmux_bin" source-file "$tmux_config"; then
+            "$tmux_bin" set-option -gq "$state_option" "$failed_state"
+            schedule_bootstrap_cleanup
+            print -u2 -- "Ghostty: could not load tmux recovery configuration; starting fresh."
+            exit 0
+        fi
+    fi
+
+    # The environment override is for isolated tests; normal launches use the
+    # configured ~/.config/tmux/resurrect directory.
+    "$tmux_bin" set-option -gq @resurrect-dir "${resurrect_dir:A}"
+    "$tmux_bin" set-option -gq "$state_option" restoring-v1
+
+    if [[ -e "${resurrect_dir:A}/last" ]]; then
+        if ! "$tmux_bin" run-shell "$restore_script"; then
+            print -u2 -- "Ghostty: the saved tmux snapshot could not be fully restored."
+        fi
+
+        # Recovered sessions without a restored Ghostty tab are kept as
+        # recoverable orphans. Attaching the matching tab clears this marker.
+        session_rows=$(
+            "$tmux_bin" list-sessions -F '#{session_name}|#{session_attached}' 2>/dev/null
+        )
+        while IFS='|' read -r session_name attached_count; do
+            if [[ $attached_count == 0 &&
+                $session_name =~ '^ghostty-[[:xdigit:]]{8}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{12}$' ]]; then
+                "$tmux_bin" set-option -q -t "$session_name" @ghostty-recovered 1
+            fi
+        done <<< "$session_rows"
+    fi
+
+    "$tmux_bin" set-option -gq "$state_option" "$ready_state"
+    schedule_bootstrap_cleanup
+    exit 0
+fi
+
+# Another restored surface is initializing the server. Wait for its
+# synchronous restore to finish before creating or attaching our UUID session.
+for attempt in {1..400}; do
+    case $(recovery_state) in
+        $ready_state)
+            exit 0
+            ;;
+        $failed_state)
+            print -u2 -- "Ghostty: tmux recovery initialization failed; starting fresh."
+            exit 0
+            ;;
+    esac
+    /bin/sleep 0.05
+done
+
+print -u2 -- "Ghostty: timed out waiting for tmux recovery; starting without restored state."
+exit 0

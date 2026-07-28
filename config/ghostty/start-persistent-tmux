@@ -1,0 +1,95 @@
+#!/bin/zsh
+
+# Give each restored Ghostty terminal surface a stable tmux session. Ghostty
+# persists the terminal UUID, but does not expose it to child processes, so use
+# a short-lived working-directory marker to find it via macOS automation.
+
+setopt NO_UNSET
+
+readonly tmux_bin=/opt/homebrew/bin/tmux
+readonly script_dir=${0:A:h}
+readonly id_script="$script_dir/find-terminal-id.js"
+readonly cleanup_script="$script_dir/cleanup-persistent-tmux"
+readonly reconcile_script="$script_dir/reconcile-persistent-tmux"
+readonly prepare_script="$script_dir/prepare-persistent-tmux"
+readonly tmux_config="$script_dir/tmux-recovery.conf"
+readonly original_pwd=$PWD
+
+emit_osc7() {
+    local path=$1
+    local hostname
+    hostname=$(/bin/hostname)
+    printf '\033]7;file://%s%s\033\\' "$hostname" "$path"
+}
+
+launch_fresh_session() {
+    print -u2 -- "Ghostty: could not identify this terminal surface; starting a fresh tmux session."
+    print -u2 -- "If macOS requested Automation access, allow Ghostty to control Ghostty and open a new tab."
+    exec "$tmux_bin" new-session -c "$original_pwd"
+}
+
+if [[ ! -x $tmux_bin || ! -f $id_script || ! -x $cleanup_script ||
+    ! -x $reconcile_script || ! -x $prepare_script ||
+    ! -f $tmux_config ]]; then
+    launch_fresh_session
+fi
+
+# This override is useful for syntax/testing and does not affect normal launches.
+surface_id=${GHOSTTY_TMUX_SURFACE_ID:-}
+marker_dir=
+
+restore_working_directory() {
+    emit_osc7 "$original_pwd"
+    if [[ -n $marker_dir && -d $marker_dir ]]; then
+        /bin/rmdir "$marker_dir" 2>/dev/null
+    fi
+    marker_dir=
+}
+
+if [[ -z $surface_id ]]; then
+    marker_dir=$(/usr/bin/mktemp -d "${TMPDIR:-/tmp}/ghostty-tmux-identify.XXXXXX") ||
+        launch_fresh_session
+    trap restore_working_directory EXIT HUP INT TERM
+    emit_osc7 "$marker_dir"
+
+    # Ghostty receives OSC 7 asynchronously. Poll briefly for the matching
+    # terminal, suppressing transient AppleScript errors while the app updates.
+    for attempt in {1..80}; do
+        surface_id=$(
+            /usr/bin/osascript -l JavaScript "$id_script" "$marker_dir" 2>/dev/null
+        )
+        surface_id=${surface_id//$'\r'/}
+        if [[ -n $surface_id ]]; then
+            break
+        fi
+        /bin/sleep 0.05
+    done
+
+    restore_working_directory
+    trap - EXIT HUP INT TERM
+fi
+
+if [[ ! $surface_id =~ '^[[:xdigit:]]{8}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{12}$' ]]; then
+    launch_fresh_session
+fi
+
+readonly session_name="ghostty-${surface_id:l}"
+readonly cleanup_command="$cleanup_script $session_name $surface_id"
+readonly cleanup_hook="run-shell -b '$cleanup_command'"
+
+if [[ ${GHOSTTY_TMUX_DRY_RUN:-0} == 1 ]]; then
+    print -r -- "$prepare_script"
+    print -r -- "$tmux_bin -f $tmux_config new-session -A -s $session_name -c $original_pwd \\;"
+    print -r -- "  set-option -q -u -t $session_name @ghostty-recovered \\;"
+    print -r -- "  set-hook -t $session_name client-detached $cleanup_hook \\;"
+    print -r -- "  run-shell -b $reconcile_script"
+    exit 0
+fi
+
+"$prepare_script"
+
+exec "$tmux_bin" -f "$tmux_config" \
+    new-session -A -s "$session_name" -c "$original_pwd" \; \
+    set-option -q -u -t "$session_name" @ghostty-recovered \; \
+    set-hook -t "$session_name" client-detached "$cleanup_hook" \; \
+    run-shell -b "$reconcile_script"

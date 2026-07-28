@@ -1,0 +1,69 @@
+#!/bin/zsh
+
+# Prune detached Ghostty tmux sessions that do not correspond to any restored
+# terminal surface. This catches tabs closed immediately before Ghostty quits.
+# Fail closed: any uncertainty preserves the session.
+
+setopt NO_UNSET
+
+readonly tmux_bin=/opt/homebrew/bin/tmux
+readonly script_dir=${0:A:h}
+readonly state_script="$script_dir/terminal-surface-state.js"
+
+# Let all restored Ghostty tabs start and identify their persistent sessions.
+/bin/sleep 8
+
+typeset -a candidates
+session_rows=$(
+    "$tmux_bin" list-sessions -F '#{session_name}|#{session_attached}' 2>/dev/null
+) || exit 0
+
+while IFS='|' read -r session_name attached_count; do
+    recovered=$(
+        "$tmux_bin" show-options -qv -t "$session_name" @ghostty-recovered 2>/dev/null
+    )
+    if [[ $attached_count != 0 ||
+        $recovered == 1 ||
+        ! $session_name =~ '^ghostty-[[:xdigit:]]{8}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{12}$' ]]; then
+        continue
+    fi
+
+    surface_id=${session_name#ghostty-}
+    surface_state=$(
+        /usr/bin/osascript -l JavaScript "$state_script" "$surface_id" 2>/dev/null
+    ) || continue
+    surface_state=${surface_state//$'\r'/}
+
+    if [[ $surface_state == surface-absent ]]; then
+        candidates+=("$session_name")
+    fi
+done <<< "$session_rows"
+
+if (( ${#candidates} == 0 )); then
+    exit 0
+fi
+
+# Require the session to remain detached and the surface to remain absent
+# across a second observation before deleting it.
+/bin/sleep 2
+
+for session_name in "${candidates[@]}"; do
+    if [[ -n $("$tmux_bin" list-clients -t "$session_name" -F '#{client_name}' 2>/dev/null) ]]; then
+        continue
+    fi
+    if [[ $("$tmux_bin" show-options -qv -t "$session_name" @ghostty-recovered 2>/dev/null) == 1 ]]; then
+        continue
+    fi
+
+    surface_id=${session_name#ghostty-}
+    surface_state=$(
+        /usr/bin/osascript -l JavaScript "$state_script" "$surface_id" 2>/dev/null
+    ) || continue
+    surface_state=${surface_state//$'\r'/}
+
+    if [[ $surface_state == surface-absent ]]; then
+        "$tmux_bin" kill-session -t "$session_name" 2>/dev/null || true
+    fi
+done
+
+exit 0

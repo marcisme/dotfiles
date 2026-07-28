@@ -1,0 +1,43 @@
+# General behavior
+cursor-style-blink = false
+scrollback-limit = 100000000
+shell-integration = zsh
+shell-integration-features = no-cursor
+window-save-state = always
+bell-features = no-attention
+
+# Keep Shift-drag available for Ghostty-native selection even when tmux has
+# enabled mouse reporting.
+mouse-shift-capture = never
+
+# Comment this one line to use a normal shell and restore the Ctrl+S
+# Ghostty split bindings below.
+config-file = tmux-mode.conf
+
+# Appearance
+theme = Selenized Dark
+
+# Text input
+keybind = alt+backspace=text:\x1b\x7f
+
+# Split creation and zoom
+keybind = ctrl+s>minus=new_split:down
+keybind = ctrl+s>backslash=new_split:right
+keybind = ctrl+s>equal=toggle_split_zoom
+keybind = ctrl+s>e=equalize_splits
+
+# Split navigation
+keybind = ctrl+s>s=goto_split:next
+keybind = ctrl+s>ctrl+s=goto_split:next
+keybind = ctrl+s>h=goto_split:left
+keybind = ctrl+s>j=goto_split:down
+keybind = ctrl+s>k=goto_split:up
+keybind = ctrl+s>l=goto_split:right
+
+# Split resize mode
+keybind = ctrl+s>r=activate_key_table:resize
+keybind = resize/arrow_left=resize_split:left,10
+keybind = resize/arrow_down=resize_split:down,10
+keybind = resize/arrow_up=resize_split:up,10
+keybind = resize/arrow_right=resize_split:right,10
+keybind = resize/escape=deactivate_key_table

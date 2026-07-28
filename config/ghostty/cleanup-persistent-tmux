@@ -1,0 +1,54 @@
+#!/bin/zsh
+
+# Called asynchronously by a per-session tmux client-detached hook.
+# Fail closed: ambiguity preserves the session rather than deleting work.
+
+setopt NO_UNSET
+
+readonly tmux_bin=/opt/homebrew/bin/tmux
+readonly script_dir=${0:A:h}
+readonly state_script="$script_dir/terminal-surface-state.js"
+
+if (( $# != 2 )); then
+    exit 0
+fi
+
+readonly session_name=$1
+readonly surface_id=$2
+
+if [[ ! $surface_id =~ '^[[:xdigit:]]{8}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{12}$' ||
+    $session_name != "ghostty-${surface_id:l}" ]]; then
+    exit 0
+fi
+
+# A normal tab close leaves Ghostty running. A full application quit should
+# finish inside this window, at which point its sessions are deliberately kept.
+/bin/sleep 5
+
+surface_state=$(
+    /usr/bin/osascript -l JavaScript "$state_script" "$surface_id" 2>/dev/null
+) || exit 0
+surface_state=${surface_state//$'\r'/}
+
+if [[ $surface_state != surface-absent ]]; then
+    exit 0
+fi
+
+# Never kill a session that another tmux client is actively using.
+if [[ -n $("$tmux_bin" list-clients -t "$session_name" -F '#{client_name}' 2>/dev/null) ]]; then
+    exit 0
+fi
+
+# Recheck immediately before deletion in case Ghostty restored the surface
+# while the delayed cleanup was running.
+surface_state=$(
+    /usr/bin/osascript -l JavaScript "$state_script" "$surface_id" 2>/dev/null
+) || exit 0
+surface_state=${surface_state//$'\r'/}
+
+if [[ $surface_state == surface-absent ]]; then
+    # Another delayed cleanup may have removed it after our final observation.
+    "$tmux_bin" kill-session -t "$session_name" 2>/dev/null || true
+fi
+
+exit 0

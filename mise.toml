@@ -9,6 +9,7 @@ dotfiles.root = "~/.dotfiles"
 "~/.ackrc" = "ackrc"
 "~/.bash_profile" = "tag-bash/bash_profile"
 "~/.bashrc" = "tag-bash/bashrc"
+"~/.config/ghostty" = { source = "config/ghostty", mode = "symlink-each" }
 "~/.config/karabiner/karabiner.json" = { source = "config/karabiner/karabiner.json", mode = "copy" }
 "~/.config/nvim" = { source = "config/nvim", mode = "symlink-each" }
 "~/.config/tmux" = { source = "config/tmux", mode = "symlink-each" }
