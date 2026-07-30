@@ -4,7 +4,10 @@ scrollback-limit = 100000000
 shell-integration = zsh
 shell-integration-features = no-cursor
 window-save-state = always
-bell-features = no-attention
+# Keep BEL visual-only: mark the tab title without sound, system alerts,
+# Dock attention, or a border.
+bell-features = no-system,no-audio,no-attention,title,no-border
+bell-audio-volume = 0
 
 # Keep Shift-drag available for Ghostty-native selection even when tmux has
 # enabled mouse reporting.
