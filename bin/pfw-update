@@ -1,0 +1,270 @@
+#!/bin/sh
+
+set -eu
+
+agents_skills_dir="${HOME}/.agents/skills"
+claude_skills_dir="${HOME}/.claude/skills"
+xcode_codex_skills_dir="${HOME}/Library/Developer/Xcode/CodingAssistant/codex/skills"
+xcode_claude_skills_dir="${HOME}/Library/Developer/Xcode/CodingAssistant/ClaudeAgentConfig/skills"
+legacy_codex_skills_dir="${HOME}/.codex/skills"
+integrity_check="${HOME}/src/pfw-skill-lab/harvest/skill-integrity/check-broken-references.sh"
+
+profile=
+profile_was_set=false
+repo_path=
+force_install=false
+
+usage() {
+  printf '%s\n' \
+    "Usage: pfw-update [--profile tca|swiftui] [--repo PATH] [--force]" \
+    "" \
+    "Refresh common PFW skills in the user-level skill directories." \
+    "" \
+    "With --profile, also configure a repository-specific skill set and save" \
+    "the selection in that repository's local Git config. Without --profile," \
+    "a saved profile for the current or --repo repository is reused." \
+    "" \
+    "Options:" \
+    "  --profile PROFILE  Repository profile: tca or swiftui" \
+    "  --repo PATH        Target repository; defaults to the current repository" \
+    "  -f, --force        Force PFW to download the latest skill bundle" \
+    "  -h, --help         Show this help"
+}
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --profile)
+      if [ "$#" -lt 2 ]; then
+        echo "pfw-update: --profile requires a value" >&2
+        exit 2
+      fi
+      profile=$2
+      profile_was_set=true
+      shift 2
+      ;;
+    --profile=*)
+      profile=${1#--profile=}
+      profile_was_set=true
+      shift
+      ;;
+    --repo)
+      if [ "$#" -lt 2 ]; then
+        echo "pfw-update: --repo requires a path" >&2
+        exit 2
+      fi
+      repo_path=$2
+      shift 2
+      ;;
+    --repo=*)
+      repo_path=${1#--repo=}
+      shift
+      ;;
+    -f | --force)
+      force_install=true
+      shift
+      ;;
+    -h | --help)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "pfw-update: unknown argument: $1" >&2
+      usage >&2
+      exit 2
+      ;;
+  esac
+done
+
+if ! command -v pfw >/dev/null 2>&1; then
+  echo "pfw-update: pfw is not installed or is not on PATH" >&2
+  exit 127
+fi
+
+repo_root=
+if [ -n "$repo_path" ]; then
+  if ! repo_root=$(git -C "$repo_path" rev-parse --show-toplevel 2>/dev/null); then
+    echo "pfw-update: not a Git repository: $repo_path" >&2
+    exit 2
+  fi
+elif [ "$profile_was_set" = true ]; then
+  if ! repo_root=$(git rev-parse --show-toplevel 2>/dev/null); then
+    echo "pfw-update: --profile must be run inside a Git repository or with --repo" >&2
+    exit 2
+  fi
+elif candidate_repo_root=$(git rev-parse --show-toplevel 2>/dev/null); then
+  saved_profile=$(git -C "$candidate_repo_root" config --local --get pfw.profile 2>/dev/null || true)
+  if [ -n "$saved_profile" ]; then
+    repo_root=$candidate_repo_root
+    profile=$saved_profile
+  fi
+fi
+
+if [ -n "$repo_root" ] && [ -z "$profile" ]; then
+  profile=$(git -C "$repo_root" config --local --get pfw.profile 2>/dev/null || true)
+fi
+
+if [ -n "$profile" ]; then
+  case "$profile" in
+    tca | swiftui) ;;
+    *)
+      echo "pfw-update: unsupported profile: $profile" >&2
+      echo "pfw-update: expected tca or swiftui" >&2
+      exit 2
+      ;;
+  esac
+
+  if [ -z "$repo_root" ]; then
+    echo "pfw-update: a repository is required when selecting a profile" >&2
+    exit 2
+  fi
+
+  repo_agents_skills_dir="${repo_root}/.agents/skills"
+  repo_claude_skills_dir="${repo_root}/.claude/skills"
+fi
+
+# Explicit global targets prevent PFW from auto-detecting ~/.codex/skills.
+# Repository profiles use the standard project-local paths for command-line
+# Codex and Claude Code. Project-local discovery by Xcode's isolated agents has
+# not been verified; their global directories intentionally receive only the
+# architecture-neutral common skill set for now.
+if [ -n "$profile" ]; then
+  if [ "$force_install" = true ]; then
+    pfw install \
+      --tool agents \
+      --tool claude \
+      --tool xcode:codex \
+      --tool xcode:claude \
+      --path "$repo_agents_skills_dir" \
+      --path "$repo_claude_skills_dir" \
+      --force
+  else
+    pfw install \
+      --tool agents \
+      --tool claude \
+      --tool xcode:codex \
+      --tool xcode:claude \
+      --path "$repo_agents_skills_dir" \
+      --path "$repo_claude_skills_dir"
+  fi
+elif [ "$force_install" = true ]; then
+  pfw install \
+    --tool agents \
+    --tool claude \
+    --tool xcode:codex \
+    --tool xcode:claude \
+    --force
+else
+  pfw install \
+    --tool agents \
+    --tool claude \
+    --tool xcode:codex \
+    --tool xcode:claude
+fi
+
+remove_symlink() {
+  link_path=$1
+  if [ -L "$link_path" ]; then
+    rm "$link_path"
+    echo "pfw-update: removed $link_path"
+  elif [ -e "$link_path" ]; then
+    echo "pfw-update: refusing to remove non-symlink $link_path" >&2
+    return 1
+  fi
+}
+
+# Architecture-selecting skills are repository-local. Keeping them out of the
+# user and Xcode directories prevents one repository's architecture from being
+# available in every other repository.
+for skills_dir in \
+  "$agents_skills_dir" \
+  "$claude_skills_dir" \
+  "$xcode_codex_skills_dir" \
+  "$xcode_claude_skills_dir"
+do
+  for repository_skill in \
+    pfw-composable-architecture \
+    pfw-composable-architecture-2 \
+    pfw-modern-swiftui \
+    pfw-observable-models \
+    pfw-perception
+  do
+    remove_symlink "${skills_dir}/${repository_skill}"
+  done
+done
+
+if [ -n "$profile" ]; then
+  for skills_dir in "$repo_agents_skills_dir" "$repo_claude_skills_dir"; do
+    for link_path in "${skills_dir}"/pfw-*; do
+      skill_name=${link_path##*/}
+      case "${profile}:${skill_name}" in
+        tca:pfw-composable-architecture-2) ;;
+        swiftui:pfw-modern-swiftui | swiftui:pfw-observable-models) ;;
+        *) remove_symlink "$link_path" ;;
+      esac
+    done
+  done
+
+  exclude_file=$(git -C "$repo_root" rev-parse --path-format=absolute --git-path info/exclude)
+  for exclude_pattern in \
+    '/.agents/skills/pfw-*' \
+    '/.claude/skills/pfw-*'
+  do
+    if ! grep -Fqx "$exclude_pattern" "$exclude_file"; then
+      printf '%s\n' "$exclude_pattern" >>"$exclude_file"
+    fi
+  done
+
+  if [ "$profile_was_set" = true ]; then
+    git -C "$repo_root" config --local pfw.profile "$profile"
+  fi
+
+  echo "pfw-update: configured $repo_root with the $profile profile"
+fi
+
+# Clean up links created by earlier auto-detected Codex CLI installs. The glob
+# may remain literal when there are no matches, which remove_symlink ignores.
+for link_path in "${legacy_codex_skills_dir}"/pfw-*; do
+  remove_symlink "$link_path"
+done
+
+if [ ! -x "$integrity_check" ]; then
+  echo "pfw-update: integrity check is missing or not executable: $integrity_check" >&2
+  exit 1
+fi
+
+# Scan the union of globally available skills and both supported repository
+# profiles. Scanning only the global directory would misreport a broken
+# profile-specific reference as fixed after its skill moves repository-local.
+integrity_skills_dir=$(mktemp -d "${TMPDIR:-/tmp}/pfw-update-integrity.XXXXXX")
+cleanup_integrity_skills() {
+  for link_path in "${integrity_skills_dir}"/pfw-*; do
+    if [ -L "$link_path" ]; then
+      rm "$link_path"
+    fi
+  done
+  rmdir "$integrity_skills_dir" 2>/dev/null || true
+}
+trap cleanup_integrity_skills 0 HUP INT TERM
+
+for link_path in "${agents_skills_dir}"/pfw-*; do
+  if [ -L "$link_path" ]; then
+    ln -s "$link_path" "${integrity_skills_dir}/${link_path##*/}"
+  fi
+done
+
+for profile_skill in \
+  composable-architecture-2 \
+  modern-swiftui \
+  observable-models
+do
+  profile_skill_dir="${HOME}/.pfw/skills/${profile_skill}"
+  if [ ! -d "$profile_skill_dir" ]; then
+    echo "pfw-update: installed profile skill is missing: $profile_skill_dir" >&2
+    exit 1
+  fi
+  ln -s "$profile_skill_dir" "${integrity_skills_dir}/pfw-${profile_skill}"
+done
+
+PFW_SKILLS_DIR="$integrity_skills_dir" "$integrity_check"
+cleanup_integrity_skills
+trap - 0 HUP INT TERM
