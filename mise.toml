@@ -32,6 +32,10 @@ dotfiles.root = "~/.dotfiles"
 "~/.zshrc" = "tag-zsh/zshrc"
 "~/bin" = { source = "bin", mode = "symlink-each" }
 
+[bootstrap.repos]
+"~/.config/tmux/plugins/tmux-continuum" = { url = "https://github.com/tmux-plugins/tmux-continuum.git" }
+"~/.config/tmux/plugins/tmux-resurrect" = { url = "https://github.com/tmux-plugins/tmux-resurrect.git" }
+
 [bootstrap.packages]
 "brew:bash-completion" = "latest"
 "brew:cmake" = "latest"

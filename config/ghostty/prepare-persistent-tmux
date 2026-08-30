@@ -9,11 +9,12 @@ setopt NO_UNSET
 readonly tmux_bin=/opt/homebrew/bin/tmux
 readonly script_dir=${0:A:h}
 readonly tmux_config="$script_dir/tmux-recovery.conf"
-readonly resurrect_root="$script_dir/../tmux/plugins/tmux-resurrect"
-readonly continuum_root="$script_dir/../tmux/plugins/tmux-continuum"
+readonly plugin_root="$HOME/.config/tmux/plugins"
+readonly resurrect_root="$plugin_root/tmux-resurrect"
+readonly continuum_root="$plugin_root/tmux-continuum"
 readonly restore_script="$resurrect_root/scripts/restore.sh"
 readonly expected_restore_script=${restore_script:A}
-readonly resurrect_dir=${GHOSTTY_TMUX_RESURRECT_DIR:-"$script_dir/../tmux/resurrect"}
+readonly resurrect_dir=${GHOSTTY_TMUX_RESURRECT_DIR:-"$HOME/.config/tmux/resurrect"}
 readonly bootstrap_session=__ghostty_recovery_bootstrap__
 readonly state_option=@ghostty-recovery-state
 readonly ready_state=ready-v1
