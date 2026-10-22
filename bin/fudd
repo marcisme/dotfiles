@@ -1,15 +1,37 @@
 #!/usr/bin/env bash
 
-# https://lapcatsoftware.com/articles/DerivedData.html
+set -euo pipefail
 
-readonly dd="$HOME/Library/Developer/Xcode/DerivedData"
+if (( $# > 0 )); then
+  if (( $# == 1 )) && [[ $1 == --help || $1 == -h ]]; then
+    echo 'Usage: fudd'
+    echo 'Move Xcode DerivedData to Trash without emptying other trashed files.'
+    exit 0
+  fi
+  echo 'Usage: fudd' >&2
+  exit 2
+fi
 
-if [ ! -d "$dd" ]; then
-  echo "DerivedData has already been removed."
+readonly derived_data="$HOME/Library/Developer/Xcode/DerivedData"
+
+if [[ -L $derived_data ]]; then
+  echo 'DerivedData is a symlink; refusing to trash its destination.' >&2
+  exit 1
+fi
+
+if [[ ! -e $derived_data ]]; then
+  echo 'DerivedData has already been removed.'
   exit 0
 fi
 
-echo "Removing $dd"
+# Use Finder so trashing built apps participates in Launch Services cleanup.
+# https://lapcatsoftware.com/articles/DerivedData.html
+osascript - "$derived_data" >/dev/null <<'APPLESCRIPT'
+on run argv
+  tell application "Finder"
+    move (POSIX file (item 1 of argv)) to trash
+  end tell
+end run
+APPLESCRIPT
 
-osascript -e "tell application \"Finder\" to move POSIX file \"$dd\" to trash"
-osascript -e "tell application \"Finder\" to empty trash" &> /dev/null &
+echo 'Moved DerivedData to Trash.'

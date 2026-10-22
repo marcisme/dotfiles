@@ -1,5 +1,5 @@
 COPY_ALWAYS="config/karabiner/karabiner.json config/lume/config.yaml"
-EXCLUDES="README.md mise.toml"
+EXCLUDES="README.md mise.toml tests"
 TAGS="bash zsh"
 SYMLINK_DIRS="vim/plugged vim/tmp"
 UNDOTTED="bin"
