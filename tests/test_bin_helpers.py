@@ -20,7 +20,7 @@ class HelperTest(unittest.TestCase):
         self.fake_bin = self.root / 'bin'
         self.fake_bin.mkdir()
         self.env = dict(os.environ, HOME=str(self.fixture_home),
-                        PATH=str(self.fake_bin) + os.pathsep + os.environ['PATH'])
+                        PATH=str(self.fake_bin) + os.pathsep + os.defpath)
 
     def run_helper(self, name, *args):
         return subprocess.run([str(REPO / 'bin' / name), *map(str, args)],
@@ -133,6 +133,87 @@ class FuspmTests(HelperTest):
         result = self.run_cache_cleanup()
         self.assertEqual(result.returncode, 42)
         self.assertTrue(self.cache.exists())
+
+
+class TouchIDTests(HelperTest):
+    def setUp(self):
+        super().setUp()
+        self.pam = self.root / 'pam directory'
+        self.pam.mkdir()
+        self.vendor = self.pam / 'sudo'
+        self.vendor.write_text('auth include sudo_local\nauth required pam_opendirectory.so\n')
+        self.template = self.pam / 'sudo_local.template'
+        self.template.write_text('# Local configuration\n#auth sufficient pam_tid.so\n')
+        self.target = self.pam / 'sudo_local'
+
+    def enable(self, *args):
+        return self.run_helper('enable-tid-sudo', '--pam-dir', self.pam, *args)
+
+    def test_creates_local_config_without_changing_vendor_files(self):
+        vendor = self.vendor.read_bytes()
+        template = self.template.read_bytes()
+        result = self.enable()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.target.read_text(), '# Local configuration\nauth sufficient pam_tid.so\n')
+        self.assertEqual(self.target.stat().st_mode & 0o777, 0o644)
+        self.assertEqual(self.vendor.read_bytes(), vendor)
+        self.assertEqual(self.template.read_bytes(), template)
+
+    def test_preserves_custom_rules_and_backs_up_existing_file(self):
+        original = 'auth optional /opt/homebrew/lib/pam/pam_reattach.so\n#auth sufficient pam_tid.so\naccount optional pam_permit.so\n'
+        self.target.write_text(original)
+        result = self.enable()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.target.read_text(), original.replace('#auth', 'auth'))
+        backups = list(self.pam.glob('sudo_local.before-touch-id.*'))
+        self.assertEqual(len(backups), 1)
+        self.assertEqual(backups[0].read_text(), original)
+
+    def test_appends_touch_id_when_no_commented_rule_exists(self):
+        self.target.write_text('auth optional pam_reattach.so')
+        result = self.enable()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.target.read_text(), 'auth optional pam_reattach.so\nauth sufficient pam_tid.so\n')
+
+    def test_repeated_runs_do_not_rewrite_or_duplicate_the_rule(self):
+        self.assertEqual(self.enable().returncode, 0)
+        before = self.target.stat()
+        result = self.enable()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.target.stat().st_ino, before.st_ino)
+        self.assertEqual(self.target.stat().st_mtime_ns, before.st_mtime_ns)
+        self.assertEqual(list(self.pam.glob('sudo_local.before-touch-id.*')), [])
+
+    def test_check_reports_state_without_writing(self):
+        result = self.enable('--check')
+        self.assertEqual(result.returncode, 1)
+        self.assertFalse(self.target.exists())
+        self.assertEqual(self.enable().returncode, 0)
+        self.assertEqual(self.enable('--check').returncode, 0)
+
+    def test_refuses_unsupported_vendor_configuration(self):
+        self.vendor.write_text('auth required pam_opendirectory.so\n')
+        result = self.enable()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(self.target.exists())
+        self.assertEqual(list(self.pam.glob('.sudo_local.*')), [])
+
+    def test_refuses_to_overwrite_a_symlink(self):
+        outside = self.root / 'outside'
+        outside.write_text('untouched')
+        self.target.symlink_to(outside)
+        result = self.enable()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertTrue(self.target.is_symlink())
+        self.assertEqual(outside.read_text(), 'untouched')
+
+    def test_preserves_a_custom_active_touch_id_rule(self):
+        original = 'auth required pam_tid.so\n'
+        self.target.write_text(original)
+        result = self.enable()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(self.target.read_text(), original)
+        self.assertEqual(list(self.pam.glob('sudo_local.before-touch-id.*')), [])
 
 
 if __name__ == '__main__':
