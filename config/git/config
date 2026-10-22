@@ -1,5 +1,4 @@
 [core]
-  excludesfile = ~/.gitignore
   editor = nvim
   whitespace = tab-in-indent
 [color]
@@ -40,7 +39,7 @@
 [push]
   default = current
 [include]
-  path = .gitconfig.local
+  path = ~/.gitconfig.local
 [init]
   defaultBranch = main
 [mergetool "kaleidoscope"]
