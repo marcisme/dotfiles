@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-open "$(xcode-select -p)/Applications/Simulator.app"
