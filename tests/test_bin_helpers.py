@@ -88,5 +88,52 @@ shutil.move(sys.argv[-1], str(Path(os.environ['HOME']) / '.Trash' / 'DerivedData
         self.assertFalse(self.log.exists())
 
 
+class FuspmTests(HelperTest):
+    def setUp(self):
+        super().setUp()
+        self.cache = self.fixture_home / 'Library/Caches/org.swift.swiftpm'
+        self.config = self.fixture_home / 'Library/org.swift.swiftpm'
+        self.config.mkdir(parents=True)
+        (self.config / 'keep.json').write_text('settings')
+
+    def run_cache_cleanup(self):
+        return subprocess.run(['/bin/bash', str(REPO / 'bin/fuspm')], env=self.env,
+                              capture_output=True, text=True, timeout=10)
+
+    def test_removes_only_the_cache_with_quoted_home_path(self):
+        self.cache.mkdir(parents=True)
+        (self.cache / 'artifact').write_text('cached artifact')
+        result = self.run_cache_cleanup()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertFalse(self.cache.exists())
+        self.assertEqual((self.config / 'keep.json').read_text(), 'settings')
+
+    def test_missing_cache_is_a_noop(self):
+        result = self.run_cache_cleanup()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertFalse(self.cache.exists())
+        self.assertTrue(self.config.exists())
+
+    def test_removes_a_cache_symlink_without_following_it(self):
+        external = self.root / 'external'
+        external.mkdir()
+        (external / 'keep').write_text('outside cache')
+        self.cache.parent.mkdir(parents=True)
+        self.cache.symlink_to(external)
+        result = self.run_cache_cleanup()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertFalse(self.cache.is_symlink())
+        self.assertEqual((external / 'keep').read_text(), 'outside cache')
+
+    def test_reports_removal_failure(self):
+        self.cache.mkdir(parents=True)
+        stub = self.fake_bin / 'rm'
+        stub.write_text('#!/bin/sh\nexit 42\n')
+        stub.chmod(0o755)
+        result = self.run_cache_cleanup()
+        self.assertEqual(result.returncode, 42)
+        self.assertTrue(self.cache.exists())
+
+
 if __name__ == '__main__':
     unittest.main()
