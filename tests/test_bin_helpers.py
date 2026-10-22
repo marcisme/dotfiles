@@ -45,23 +45,30 @@ script = sys.stdin.read()
 Path(os.environ['OSASCRIPT_LOG']).write_text(json.dumps({'args': sys.argv[1:], 'script': script}))
 if os.environ.get('OSASCRIPT_FAIL'):
     sys.exit(42)
-if 'empty trash' in script.lower() or '-e' in sys.argv:
-    sys.exit(43)
 shutil.move(sys.argv[-1], str(Path(os.environ['HOME']) / '.Trash' / 'DerivedData'))
+if 'empty trash' in script.lower():
+    if os.environ.get('OSASCRIPT_EMPTY_FAIL'):
+        sys.exit(44)
+    for item in (Path(os.environ['HOME']) / '.Trash').iterdir():
+        if item.is_dir() and not item.is_symlink():
+            shutil.rmtree(item)
+        else:
+            item.unlink()
 ''')
         stub.chmod(0o755)
 
-    def test_trashes_only_derived_data_with_quoted_home_path(self):
+    def test_trashes_derived_data_then_empties_the_entire_trash(self):
         self.derived.mkdir(parents=True)
         (self.derived / 'build.dat').write_text('build cache')
         result = self.run_helper('fudd')
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertFalse(self.derived.exists())
-        self.assertEqual((self.trash / 'DerivedData/build.dat').read_text(), 'build cache')
-        self.assertEqual(self.unrelated.read_text(), 'unrelated file')
+        self.assertEqual(list(self.trash.iterdir()), [])
         request = json.loads(self.log.read_text())
         self.assertEqual(request['args'], ['-', str(self.derived)])
-        self.assertNotIn('empty trash', request['script'].lower())
+        self.assertLess(request['script'].index('move (POSIX file'),
+                        request['script'].index('empty trash'))
+        self.assertIn('emptied the Trash', result.stdout)
 
     def test_missing_directory_is_a_noop(self):
         result = self.run_helper('fudd')
@@ -75,7 +82,24 @@ shutil.move(sys.argv[-1], str(Path(os.environ['HOME']) / '.Trash' / 'DerivedData
         result = self.run_helper('fudd')
         self.assertEqual(result.returncode, 42)
         self.assertTrue(self.derived.exists())
+        self.assertTrue(self.unrelated.exists())
         self.assertNotIn('Moved', result.stdout)
+
+    def test_emptying_failure_is_reported_after_trashing(self):
+        self.derived.mkdir(parents=True)
+        self.env['OSASCRIPT_EMPTY_FAIL'] = '1'
+        result = self.run_helper('fudd')
+        self.assertEqual(result.returncode, 44)
+        self.assertFalse(self.derived.exists())
+        self.assertTrue((self.trash / 'DerivedData').is_dir())
+        self.assertTrue(self.unrelated.exists())
+        self.assertNotIn('emptied', result.stdout)
+
+    def test_help_explains_that_the_entire_trash_is_emptied(self):
+        result = self.run_helper('fudd', '--help')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('entire Trash', result.stdout)
+        self.assertFalse(self.log.exists())
 
     def test_refuses_to_follow_a_derived_data_symlink(self):
         external = self.root / 'external'

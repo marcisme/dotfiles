@@ -5,7 +5,7 @@ set -euo pipefail
 if (( $# > 0 )); then
   if (( $# == 1 )) && [[ $1 == --help || $1 == -h ]]; then
     echo 'Usage: fudd'
-    echo 'Move Xcode DerivedData to Trash without emptying other trashed files.'
+    echo 'Move Xcode DerivedData to Trash, then empty the entire Trash.'
     exit 0
   fi
   echo 'Usage: fudd' >&2
@@ -24,14 +24,15 @@ if [[ ! -e $derived_data ]]; then
   exit 0
 fi
 
-# Use Finder so trashing built apps participates in Launch Services cleanup.
+# Use Finder to trash built apps and empty the Trash for Launch Services cleanup.
 # https://lapcatsoftware.com/articles/DerivedData.html
 osascript - "$derived_data" >/dev/null <<'APPLESCRIPT'
 on run argv
   tell application "Finder"
     move (POSIX file (item 1 of argv)) to trash
+    empty trash
   end tell
 end run
 APPLESCRIPT
 
-echo 'Moved DerivedData to Trash.'
+echo 'Moved DerivedData to Trash and emptied the Trash.'
