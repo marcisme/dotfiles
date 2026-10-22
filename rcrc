@@ -1,4 +1,4 @@
-COPY_ALWAYS="config/karabiner/karabiner.json"
+COPY_ALWAYS="config/karabiner/karabiner.json config/lume/config.yaml"
 EXCLUDES="README.md mise.toml"
 TAGS="bash zsh"
 SYMLINK_DIRS="vim/plugged vim/tmp"

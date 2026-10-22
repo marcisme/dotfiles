@@ -13,6 +13,7 @@ dotfiles.root = "~/.dotfiles"
 "~/.config/ghostty" = { source = "config/ghostty", mode = "symlink-each" }
 "~/.config/git" = { source = "config/git", mode = "symlink-each" }
 "~/.config/karabiner/karabiner.json" = { source = "config/karabiner/karabiner.json", mode = "copy" }
+"~/.config/lume/config.yaml" = { source = "config/lume/config.yaml", mode = "copy" }
 "~/.config/nvim" = { source = "config/nvim", mode = "symlink-each" }
 "~/.config/tmux" = { source = "config/tmux", mode = "symlink-each" }
 "~/.gemrc" = "gemrc"
