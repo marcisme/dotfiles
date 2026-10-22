@@ -1,4 +1,3 @@
-COPY_ALWAYS="config/lume/config.yaml"
 EXCLUDES="README.md mise.toml tests"
 TAGS="bash zsh"
 SYMLINK_DIRS="config/karabiner vim/plugged vim/tmp"
