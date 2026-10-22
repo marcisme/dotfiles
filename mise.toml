@@ -16,6 +16,7 @@ dotfiles.root = "~/.dotfiles"
 "~/.config/lume/config.yaml" = { source = "config/lume/config.yaml", mode = "copy" }
 "~/.config/nvim" = { source = "config/nvim", mode = "symlink-each" }
 "~/.config/tmux" = { source = "config/tmux", mode = "symlink-each" }
+"~/.config/tmuxinator" = { source = "config/tmuxinator", mode = "symlink-each" }
 "~/.gemrc" = "gemrc"
 "~/.gvimrc" = "gvimrc"
 "~/.inputrc" = "inputrc"

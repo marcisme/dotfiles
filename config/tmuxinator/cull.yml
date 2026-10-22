@@ -1,0 +1,7 @@
+name: cull
+root: ~/src/Cull
+
+windows:
+  - Cull: clear
+  - TCA26: cd ../3/TCA26 && clear
+  - sqlite-data: cd ../3/sqlite-data && clear
