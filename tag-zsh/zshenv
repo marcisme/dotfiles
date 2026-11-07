@@ -1,8 +1,8 @@
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
+export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
 
 export PATH=$HOME/bin:$PATH
-export ACK_PAGER="less -R"
 
 # mise shims so non-interactive shells (hooks, CI, agent tools) resolve mise-pinned tools.
 export PATH="$HOME/.local/share/mise/shims:$PATH"

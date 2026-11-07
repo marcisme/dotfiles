@@ -1,0 +1,4 @@
+--type-add=ruby:*.haml
+--type-add=ruby:*.rsel
+--type-add=cuke:*.feature
+--type-add=plist:*.plist

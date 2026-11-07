@@ -3,18 +3,22 @@ set -o vi
 
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
+export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
 
 # prompt
 #   * __git_ps1 is from bash git completion, so must come last. ish.
 export PS1='\u@\h:\w$(__git_ps1 " (%s)")\n> '
 
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
-export ACK_PAGER="less -R"
 
 eval $(/opt/homebrew/bin/brew shellenv)
 
-if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
-  source $(brew --prefix)/etc/bash_completion
+if [ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]; then
+  source "$(brew --prefix)/etc/profile.d/bash_completion.sh"
+fi
+
+if [ -r "$(brew --prefix)/etc/bash_completion.d/git-prompt.sh" ]; then
+  source "$(brew --prefix)/etc/bash_completion.d/git-prompt.sh"
 fi
 
 # local stuff
@@ -22,8 +26,9 @@ if [ -f ~/.bashrc.local ]; then
   source ~/.bashrc.local
 fi
 
-# rbenv setup
-if which rbenv &> /dev/null; then eval "$(rbenv init -)"; fi
+# Mise supplies Node and other development tools.
+export PATH="$HOME/.local/share/mise/shims:$PATH"
+eval "$(/opt/homebrew/bin/mise activate bash)"
 
 # direnv setup
 export DIRENV_LOG_FORMAT=""
@@ -63,10 +68,13 @@ if which direnv &> /dev/null; then eval "$(direnv hook bash)"; fi
 
 alias g="git"
 
-# make completion work for g
-# http://askubuntu.com/questions/62095/how-to-alias-git-to-g-so-that-bash-completion-rules-are-preserved
-complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g 2>/dev/null \
-    || complete -o default -o nospace -F __git_wrap__git_main g
+# Use Git's completion for the g alias.
+if ! declare -F __git_complete >/dev/null && [ -r "$(brew --prefix)/etc/bash_completion.d/git-completion.bash" ]; then
+  source "$(brew --prefix)/etc/bash_completion.d/git-completion.bash"
+fi
+if declare -F __git_complete >/dev/null; then
+  __git_complete g git
+fi
 
 # git prompt custumizations
 export GIT_PS1_SHOWDIRTYSTATE=1

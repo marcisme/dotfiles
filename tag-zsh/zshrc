@@ -12,9 +12,6 @@ if type brew &>/dev/null; then
   compinit
 fi
 
-# rbenv setup
-if which rbenv &> /dev/null; then eval "$(rbenv init - zsh)"; fi
-
 # direnv setup
 export DIRENV_LOG_FORMAT=""
 if which direnv &> /dev/null; then eval "$(direnv hook zsh)"; fi
@@ -97,11 +94,6 @@ add-zsh-hook chpwd _tmux_name_window_from_git
 add-zsh-hook precmd _tmux_name_window_from_git
 
 alias vim=nvim
-
-# JS
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 PATH=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support:"$PATH"
 
